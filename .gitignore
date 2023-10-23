@@ -1,0 +1,14 @@
+#Dependencias
+node_modules/
+
+#configuración de babel
+config/
+
+#archivo principal
+index.js
+
+# debug
+yarn-error.log
+
+#configuracion
+.npmignore

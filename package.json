@@ -1,0 +1,50 @@
+{
+  "name": "react-native-multicolumn-modal-picker",
+  "version": "1.0.4",
+  "description": "It is a highly customizable React Native component for the iOS platform. It allows you to configure up to 3 selection columns in the same picker. By default, it can be used as a simple selector.",
+  "main": "index.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "minify": "babel --config-file ./config/babel.config.json index.js --out-file ./config/index.babel.js && terser -c -o index.min.js -- ./config/index.babel.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rio9735/react-native-multicolumn-modal-picker.git"
+  },
+  "keywords": [
+    "react-native",
+    "react native",
+    "iOS",
+    "picker",
+    "selector",
+    "modal",
+    "column",
+    "multi",
+    "column-picker",
+    "multicolumn",
+    "multi-column",
+    "multi-selector",
+    "multiselector",
+    "multi-picker",
+    "multipicker",
+    "configurable",
+    "customizable"
+  ],
+  "author": "Rio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rio9735/react-native-multicolumn-modal-picker/issues"
+  },
+  "homepage": "https://github.com/Rio9735/react-native-multicolumn-modal-picker#readme",
+  "dependencies": {
+    "@react-native-picker/picker": "^2.5.1"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.22.15",
+    "@babel/preset-react": "^7.22.15"
+  }
+}

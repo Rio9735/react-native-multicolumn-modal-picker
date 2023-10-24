@@ -1,6 +1,6 @@
 {
   "name": "react-native-multicolumn-modal-picker",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "It is a highly customizable React Native component for the iOS platform. It allows you to configure up to 3 selection columns in the same picker. By default, it can be used as a simple selector.",
   "main": "index.min.js",
   "scripts": {

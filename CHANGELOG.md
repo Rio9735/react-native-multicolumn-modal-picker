@@ -1,0 +1,86 @@
+# Changelog
+
+## [1.0.5] - 2023-10-24
+
+### Added
+
+* New property `actionButtons` has been added. This property controls both the visibility and the position of the “Accept” and “Cancel” action buttons. It supports several values including `"none"`, `"cancel"`, `"top"`, and `"bottom"`. For more details, please refer to the [documentation](./README.md#general-properties).
+* New property `actionButtonsBorderColor` has been added. This property allows you to set the border color of the action buttons.
+
+### Modified
+
+* The property name `extraView` has been changed to `hPadding` for improved clarity and consistency in property naming.
+* The propertye `searchPlaceholderTextColor` has been changed to `searchElementsColor`. The new property `searchElementsColor`, in addition to defining the color of the search bar placeholder, also defines the color of the clear button in the search bar.
+
+### Removed
+
+* The `showActionButtons` and `showCancelButton` properties have been removed. The functionality of these properties has been absorbed by the new `actionButtons` property.
+
+### Package Experience Enhancements
+
+* New `postinstall` message in `package.json`.
+* New “Do you like our package?” section in the documentation.
+* Changelog is now located in `CHANGELOG.md` and referenced in the package documentation.
+
+### Notes
+
+ These changes provide more flexibility in controlling the visibility and position of the action buttons, making it easier to customize the user interface according to your needs.
+
+## [1.0.4] - 2023-10-22
+
+### Changes
+
+* Discontinued support for versions prior to `1.0.4`. Developers are encouraged to update to the latest version. Thanks for understanding.
+* Limited package use to `iOS` only. This decision was made to prevent potential errors and dissatisfaction for developers using the package for `Android` applications. For more details see the [Compatibility](./README.md#compatibility) section in the documentation.
+* Important performance adjustments and minor corrections.
+
+### Added
+
+* Implemented the search bar in the selector. [See Example 3](./README.md#3-single-column-picker-with-search-bar).
+* New properties were added for the [search bar](./README.md#search-bar-related-properties-the-use-of-the-search-bar-is-completely-optional-it-can-only-be-used-in-conjunction-with-a-single-column-picker-the-search-bar-should-be-combined-with-column1) (`searchBar`, `searchBoxStyle`, `searchPlaceholder`, `searchPlaceholderTextColor`, `searchTextStyle`). In addition, the properties `acceptButtonTextStyle`, `cancelButtonBgColor`, `cancelButtonTextStyle`, `itemStyle`, `rightInfoTextStyle`, `showActionButtons`, `showCancelButton` and `titleStyle` were incorporated to provide greater flexibility in other aspects of the user interface.
+
+### Modified
+
+* The property name `highlightSelectionColor` has been changed to `selectionHighlightColor` for improved clarity and consistency in property naming.
+
+### Removed
+
+* Removed properties: `acceptButtonTextColor`, `allItemsColor`, `cancelButtonTextColor`, `col1ItemsColor`, `col2ItemsColor`, `col3ItemsColor`, `rightInfoSize`, `rightInfoTextColor`, `showOnTop`, `titleComponent`, `theme`.
+
+## [1.0.3] - 2023-10-17
+
+### Changes
+
+* Minor bug fixes were made.
+* Adjustments were made to improve compatibility and performance.
+* Documentation was improved.
+
+## [1.0.2] - 2023-10-17
+
+### Changes
+
+* Minor bug fixes were made.
+* Adjustments were made to improve compatibility and performance.
+* Documentation was improved.
+
+## [1.0.1] - 2023-10-16
+
+### Changes
+
+* Minor bug fixes were made.
+* Adjustments were made to improve compatibility and performance.
+* Documentation was improved.
+
+## [1.0.0] - 2023-10-15
+
+### Added
+
+* Creation of the package ‘react-native-multicolumn-modal-picker’, a highly customizable React Native component for the ‘iOS’ platform that allows you to configure up to 3 selection columns in the same picker.
+* Inclusion of the dependency ‘@react-native-picker/picker’ which is automatically installed with my package.
+* Compatibility with existing React Native projects, whether you’re using ‘Expo’ or pure ‘React Native’.
+
+## Do you like this package?
+
+Thank you for using my package! Your support is greatly appreciated and it motivates me to continue improving and adding new features. If you find my package useful, please consider giving it a :star: on GitHub. This lets me know that I’m on the right track and encourages me to keep going.
+
+[Give it a star!](https://github.com/Rio9735/react-native-multicolumn-modal-picker)

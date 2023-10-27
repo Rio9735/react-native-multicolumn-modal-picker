@@ -7,7 +7,7 @@
 
 ![Static Badge](https://img.shields.io/badge/prop--types-v15.8.1-blue)&nbsp;&nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/react--native--picker%2Fpicker-grey)
 
-For users of npm v7 or higher, react-native-multicolumn-modal-picker will automatically install the “@react-native-picker/picker” dependency. This is due to npm v7+'s support for automatic peer dependency installation, simplifying dependency management.
+For users of `npm v7 or higher`, `react-native-multicolumn-modal-picker` will automatically install the `@react-native-picker/picker` dependency. This is due to npm v7+'s support for automatic peer dependency installation, simplifying dependency management.
 
 In version 1.0.5 of the package, `prop-types` dependency has been included for runtime prop type validation. This addition enhances error detection and code quality. It also eases component implementation by providing autocomplete with a brief description of each prop and its data type. This addition has a more technical focus and is intended to improve the developer's experience, it does not affect the overall operation of the package and its implementation is transparent to end users.
 

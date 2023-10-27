@@ -1,9 +1,6 @@
 #Dependencias
 node_modules/
 
-#archivo principal
-index.js
-
 # debug
 yarn-error.log
 

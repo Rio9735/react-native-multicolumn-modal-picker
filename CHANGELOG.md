@@ -1,16 +1,26 @@
 # Changelog
 
-## [1.0.5] - 2023-10-24
+## [1.0.6] - 2023-10-26
+
+* Significant bug from version 1.0.5 has been fixed.
+
+## [1.0.5] - 2023-10-26
+
+### Changes
+
+* Performance adjustments and minor corrections.
 
 ### Added
 
 * New property `actionButtons` has been added. This property controls both the visibility and the position of the “Accept” and “Cancel” action buttons. It supports several values including `"none"`, `"cancel"`, `"top"`, and `"bottom"`. For more details, please refer to the [documentation](./README.md#general-properties).
 * New property `actionButtonsBorderColor` has been added. This property allows you to set the border color of the action buttons.
+* `prop-types` dependency for runtime prop type validation, enhancing error detection and code quality. It also eases component implementation by providing autocomplete with a brief description of each prop and its data type.
 
 ### Modified
 
 * The property name `extraView` has been changed to `hPadding` for improved clarity and consistency in property naming.
-* The propertye `searchPlaceholderTextColor` has been changed to `searchElementsColor`. The new property `searchElementsColor`, in addition to defining the color of the search bar placeholder, also defines the color of the clear button in the search bar.
+* Property `searchPlaceholderTextColor` has been changed to `searchElementsColor`. The new property `searchElementsColor`, in addition to defining the color of the search bar placeholder, also defines the color of the clear button in the search bar.
+* Improved the performance of the search bar focus and blur animations in the selector by using the native driver. This change provides a smoother animation experience.
 
 ### Removed
 

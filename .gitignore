@@ -1,9 +1,6 @@
 #Dependencias
 node_modules/
 
-#configuración de babel
-config/
-
 #archivo principal
 index.js
 

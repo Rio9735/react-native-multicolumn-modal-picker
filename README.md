@@ -177,7 +177,7 @@ const App = () => {
       <Button title="Select Time" onPress={() => setVisible(true)} />
       <MultiColumnModalPicker
         visible={visible}
-        showCancelButton
+        actionButtons="cancel"
         column1={hours}
         column2={minutes}
         onValueChange1={(value) => setSelectedHour(value)}
@@ -279,7 +279,7 @@ const App = () => {
         visible={visible}
         searchBar
         column1={options}
-        showActionButtons
+        actionButtons="top"
         rightInfo={selectedValue}
         onValueChange1={(value) => setSelectedValue(value)}
         selectedValue1={selectedValue}

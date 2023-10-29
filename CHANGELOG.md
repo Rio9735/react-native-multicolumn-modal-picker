@@ -4,6 +4,8 @@
 
 * The dependency `@react-native-picker/picker` has been moved to peerDependencies to enhance the flexibility of the package, allowing compatibility with any version of `@react-native-picker/picker`. This gives users greater control over dependency versions. Additionally, if `npm v7` or higher is used, `@react-native-picker/picker` will automatically install if it is not present in the project, simplifying dependency management.
 
+* Documentation was improved.
+
 ## [1.0.6] - 2023-10-26
 
 * Significant bug from version `1.0.5` has been fixed.

@@ -1,10 +1,22 @@
 # Changelog
 
+## [1.0.9] - 2023-11-07
+
+### Changes
+
+* Adjustments were made to improve compatibility and performance.
+
+### Notes
+
+* Documentation was improved.
+
 ## [1.0.8] - 2023-11-04
 
-## Added
+### Added
 
 * Added `postinstall` script to automatically install the peer dependency `@react-native-picker/picker` using `npm`, `expo`, or `yarn`, depending on the package manager the user is using to install `react-native-multicolumn-modal-picker`.
+
+### Notes
 
 * Documentation was improved.
   

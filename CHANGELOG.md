@@ -1,12 +1,24 @@
 # Changelog
 
+## [1.0.8] - 2023-11-04
+
+## Added
+
+* Added `postinstall` script to automatically install the peer dependency `@react-native-picker/picker` using `npm`, `expo`, or `yarn`, depending on the package manager the user is using to install `react-native-multicolumn-modal-picker`.
+
+* Documentation was improved.
+  
 ## [1.0.7] - 2023-10-30
+
+### Changes
 
 * The dependency `@react-native-picker/picker` has been moved to peerDependencies to enhance the flexibility of the package, allowing compatibility with any version of `@react-native-picker/picker`. This gives users greater control over dependency versions. Additionally, if `npm v7` or higher is used, `@react-native-picker/picker` will automatically install if it is not present in the project, simplifying dependency management.
 
 * Documentation was improved.
 
 ## [1.0.6] - 2023-10-26
+
+### Notes
 
 * Significant bug from version `1.0.5` has been fixed.
 

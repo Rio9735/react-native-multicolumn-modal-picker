@@ -1,11 +1,32 @@
 {
   "name": "react-native-multicolumn-modal-picker",
-  "version": "1.0.9",
-  "description": "It is a highly customizable React Native component for the iOS platform. It allows you to configure up to 3 selection columns in the same picker. By default, it can be used as a simple selector.",
-  "main": "index.js",
+  "version": "1.1.0",
+  "type": "commonjs",
+  "description": "A customizable multi-column modal picker for React Native iOS, supporting up to 3 selection columns.",
+  "main": "dist/index.js",
+  "react-native": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "react-native": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "echo 'Thanks for installing my package! If you find it useful, please consider giving it a star: ⭐  on GitHub: https://github.com/Rio9735/react-native-multicolumn-modal-picker' && echo 'Also, if you'd like to see this package available for Android, please vote here: https://docs.google.com/forms/d/e/1FAIpQLSd3CWTSYT7DJcdCAMP_pE5IG8DrHc0QE2q42jden6JhgyP2PA/viewform?usp=sf_link'"
+    "format": "npx --yes prettier --write .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "npx --yes oxlint src",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "validate": "npm run format && npm run typecheck && npm run lint",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run validate"
   },
   "repository": {
     "type": "git",
@@ -30,18 +51,26 @@
     "configurable",
     "customizable"
   ],
-  "author": "Rio",
+  "author": "Marcos A. Del Río Rodríguez <marcosdelrio.dev@email.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Rio9735/react-native-multicolumn-modal-picker/issues"
   },
   "homepage": "https://github.com/Rio9735/react-native-multicolumn-modal-picker#readme",
+  "engines": {
+    "node": ">=24.21.0"
+  },
   "dependencies": {
-    "@react-native-picker/picker": "^2.5.1",
-    "prop-types": "^15.8.1"
+    "@react-native-picker/picker": "^2.11.4"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
+    "react": ">=16.8.0",
+    "react-native": ">=0.62.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "react": "^19.3.0",
+    "react-native": "^0.87.1",
+    "typescript": "^7.0.2"
   }
 }

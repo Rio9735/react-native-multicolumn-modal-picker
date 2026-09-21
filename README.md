@@ -1,413 +1,359 @@
-
 # react-native-multicolumn-modal-picker
 
-&nbsp;![npm](https://img.shields.io/npm/v/react-native-multicolumn-modal-picker?label=npm%20package)&nbsp;&nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/platform-iOS-lightgrey)&nbsp;&nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/License-MIT-yellow)&nbsp;&nbsp;&nbsp;&nbsp;![npm](https://img.shields.io/npm/dt/react-native-multicolumn-modal-picker)
+[![npm](https://img.shields.io/npm/v/react-native-multicolumn-modal-picker?label=npm%20version)](https://www.npmjs.com/package/react-native-multicolumn-modal-picker)
+[![monthly downloads](https://img.shields.io/npm/dm/react-native-multicolumn-modal-picker?label=monthly%20downloads)](https://www.npmjs.com/package/react-native-multicolumn-modal-picker)
+[![platform](https://img.shields.io/badge/platform-iOS-lightgrey)](https://github.com/Rio9735/react-native-multicolumn-modal-picker)
+[![license](https://img.shields.io/npm/l/react-native-multicolumn-modal-picker)](./LICENSE)
+
+## A flexible React Native modal picker with up to three configurable columns, optional single-column search, customizable actions and styling, and localized default text
+
+## Demo
+
+<!-- markdownlint-disable MD033 -->
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/singleColumnSelector.gif" alt="Single-column picker" height="400" />
+  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/twoColumnSelector.gif" alt="Two-column picker" height="400" />
+  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/singleColumnSelectorSearchBar.gif" alt="Single-column picker with search" height="400" />
+</p>
+
+## Features
+
+- Configure up to three picker columns.
+- Search a single-column picker by label or value.
+- Place or hide action buttons.
+- Customize colors, theme styling, spacing, labels, and text styles.
+- Use built-in light/dark theming or define custom color schemes with `theme` and `customColorScheme`.
+- Automatic device localization for default buttons and search placeholder, with manual `locale` override support.
+
+## Requirements
+
+- React `>=16.8.0`
+- React Native `>=0.62.0`
+- iOS
+
+Android support is not currently provided by this package.
 
 ## Package dependencies
 
-![Static Badge](https://img.shields.io/badge/react--native--picker%2Fpicker-v2.5.1-blue)&nbsp;&nbsp;&nbsp;&nbsp;![Static Badge](https://img.shields.io/badge/prop--types-v15.8.1-blue)
+[![@react-native-picker/picker](https://img.shields.io/npm/v/@react-native-picker/picker?label=%40react-native-picker%2Fpicker)](https://www.npmjs.com/package/@react-native-picker/picker)
 
-This package includes the `@react-native-picker/picker` dependency, which is automatically installed. This allows you to use all functionalities without any additional steps or concerns about this dependency. If you already have this dependency in your project and its version is `2.5.0` or higher, this package will be compatible with it.
-
-This package includes the `prop-types` dependency, which is automatically installed. This allows you to use all functionalities without any additional steps or concerns about this dependency. If you already have this dependency in your project and its version is `15.8.0` or higher, this package will be compatible with it.
-
-## Prerequisites
-
-This package is compatible with existing React Native projects, whether you’re using `Expo` or pure `React Native`. It has been tested and verified with `react-native` version `0.72.5` and `expo` version `49.0.8`. If you experience any issues when using it with other versions, please feel free to [report it](https://github.com/Rio9735/react-native-multicolumn-modal-picker/issues/new).
-
-## Description
-
-`react-native-multicolumn-modal-picker` It is a highly customizable React Native component for the `iOS` platform. It allows you to configure up to 3 selection columns in the same picker. By default, it can be used as a simple selector.
+`@react-native-picker/picker` is a runtime dependency of this package and is installed automatically with it.
 
 ## Installation
-
-### Using npm
 
 ```bash
 npm install react-native-multicolumn-modal-picker
 ```
 
-This command installs the `react-native-multicolumn-modal-picker` package in your current project using `npm`.
-
-### Using yarn
+or:
 
 ```bash
 yarn add react-native-multicolumn-modal-picker
 ```
 
-This command installs the `react-native-multicolumn-modal-picker` package in your current project using `yarn`.
-
-### If you are using Expo
+For Expo projects:
 
 ```bash
 npx expo install react-native-multicolumn-modal-picker
 ```
 
-This command is specific for `Expo` projects. It installs the package `react-native-multicolumn-modal-picker` and also automatically handles compatibility with the `Expo` version. It’s important to use this command instead of `npm install` or `yarn add` when you’re working on an `Expo` project.
-
-## Compatibility
-
-Currently, this package is optimized for `iOS`. Although it is compatible with `Android`, I decided to restrict its use only to `iOS` as it does not provide a good user experience on `Android`. I’m considering improving this experience and making it fully functional on `Android` too. Your opinion matters to me. Please spare a minute to share your thoughts [here](https://docs.google.com/forms/d/e/1FAIpQLSd3CWTSYT7DJcdCAMP_pE5IG8DrHc0QE2q42jden6JhgyP2PA/viewform?usp=sf_link). Thank you for your patience!
-
 ## Usage
 
-```bash
-import MultiColumnModalPicker from 'react-native-multicolumn-modal-picker';
+```tsx
+import { useState } from "react";
+import { Button, View } from "react-native";
+import MultiColumnModalPicker from "react-native-multicolumn-modal-picker";
+
+const options = [
+  { label: "Option 1", value: 1 },
+  { label: "Option 2", value: 2 },
+  { label: "Option 3", value: 3 },
+];
+
+export default function App() {
+  const [visible, setVisible] = useState(false);
+  const [value, setValue] = useState(2);
+
+  return (
+    <View>
+      <Button title="Open picker" onPress={() => setVisible(true)} />
+      <MultiColumnModalPicker
+        visible={visible}
+        columns={[options]}
+        selectedValues={[value]}
+        onValueChange={(nextValue, columnIndex) => {
+          if (columnIndex === 0 && typeof nextValue === "number") {
+            setValue(nextValue);
+          }
+        }}
+        onClose={() => setVisible(false)}
+      />
+    </View>
+  );
+}
 ```
 
-You can use the `MultiColumnModalPicker` component in your application as follows:
+`onClose` is called for both the accept and cancel flows. Tapping outside the picker follows the accept path, so it calls `onAccept` (when provided) and then `onClose`; it does not call `onCancel`.
+
+The cancel button and the modal request-close event restore the values from when the modal opened, call `onCancel` (when provided), and then call `onClose`.
 
 ## Examples
 
-<p align="center">
-  <img src="./assets/singleColumnSelector.gif" height="400" />
-  <img src="./assets/twoColumnSelector.gif" height="400" style="margin-left: 20px;margin-right: 20px" />
-  <img src="./assets/singleColumnSelectorSearchBar.gif" height="400" />
-</p>
+### Two columns
 
-### 1. Basic Single Column Picker
-
-```JS
-import React, { useState } from "react";
-import { View, Button, Text, StyleSheet } from "react-native";
+```tsx
+import { useState } from "react";
+import { Button, View } from "react-native";
 import MultiColumnModalPicker from "react-native-multicolumn-modal-picker";
 
-const App = () => {
+export default function TimePickerExample() {
   const [visible, setVisible] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(2);
+  const [hour, setHour] = useState(12);
+  const [minute, setMinute] = useState(0);
 
-  const options = [
-    { label: "Option 1", value: 1 },
-    { label: "Option 2", value: 2 },
-    { label: "Option 3", value: 3 },
-  ];
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        This is an example of a Basic Single Column Picker
-      </Text>
-      <Text style={styles.selectedValue}>Selected value: {selectedValue}</Text>
-      <Button
-        title="Open selector"
-        onPress={() => {
-          setVisible(true);
-        }}
-      />
-      <MultiColumnModalPicker
-        visible={visible}
-        column1={options}
-        selectedValue1={selectedValue}
-        onValueChange1={(value) => setSelectedValue(value)}
-        onClose={() => setVisible(!visible)}
-      />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#E6E6E6",
-  },
-  title: {
-    fontSize: 24,
-    textAlign: "center",
-  },
-  selectedValue: {
-    fontSize: 18,
-    marginVertical: 10,
-  },
-});
-
-export default App;
-```
-
-### 2. Two columns picker
-
-```JS
-import React, { useState } from "react";
-import { View, Button, Text, StyleSheet } from "react-native";
-import MultiColumnModalPicker from "react-native-multicolumn-modal-picker";
-
-// Component that implements a modal selector with two columns.
-const App = () => {
-  // State variables for the visibility of the selector and the selected hour and minute
-  const [visible, setVisible] = useState(false);
-  const [selectedHour, setSelectedHour] = useState(null);
-  const [selectedMinute, setSelectedMinute] = useState(null);
-  const [formattedTime, setFormattedTime] = useState("");
-
-  // Arrays for the hours and minutes options in the selector
-  const hours = Array.from({ length: 24 }, (_, i) => ({
-    label: `${i}`.padStart(2, "0"),
-    value: `${i}`.padStart(2, "0"),
-  }));
-  const minutes = Array.from({ length: 60 }, (_, i) => ({
-    label: `${i}`.padStart(2, "0"),
-    value: `${i}`.padStart(2, "0"),
+  const hours = Array.from({ length: 24 }, (_, hour) => ({
+    label: String(hour).padStart(2, "0"),
+    value: hour,
   }));
 
-  // formatTime function converts the selected hour and minute into a time string.
-  const formatTime = (hour, minute) => {
-    let date = new Date();
-    date.setHours(hour);
-    date.setMinutes(minute);
-
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
-
-  // In this case, action that is executed when pressing outside of the modal, since the accept button is not displayed in the example.
-  const onAccept = () => {
-    setFormattedTime(formatTime(selectedHour, selectedMinute));
-  };
+  const minutes = Array.from({ length: 60 }, (_, minute) => ({
+    label: String(minute).padStart(2, "0"),
+    value: minute,
+  }));
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        This is an example of a Two-Column Picker
-      </Text>
-      {formattedTime && (
-        <Text style={styles.timeText}>
-          The selected time is: {formattedTime}
-        </Text>
-      )}
-      <Button title="Select Time" onPress={() => setVisible(true)} />
+    <View>
+      <Button title="Select time" onPress={() => setVisible(true)} />
       <MultiColumnModalPicker
         visible={visible}
-        actionButtons="cancel"
-        column1={hours}
-        column2={minutes}
-        onValueChange1={(value) => setSelectedHour(value)}
-        onValueChange2={(value) => setSelectedMinute(value)}
-        selectedValue1={selectedHour}
-        selectedValue2={selectedMinute}
-        onClose={()=> setVisible(false)}
-        onAccept={onAccept}
-        // Custom styles
-        hPadding={80}
-        bgColor="#097CF6"
-        selectionHighlightColor="#0024FF"
-        cancelButtonBgColor="#2E7DD1"
-        cancelButtonTextStyle={{ color: "#F0F0F0" }}
-      />
-    </View>
-  );
-};
+        actionButtonsPosition="bottom"
+        columns={[hours, minutes]}
+        selectedValues={[hour, minute]}
+        onValueChange={(nextValue, columnIndex) => {
+          if (columnIndex === 0 && typeof nextValue === "number") {
+            setHour(nextValue);
+          }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F0F0F0",
-  },
-  title: {
-    fontSize: 22,
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  timeText: {
-    marginBottom: 20,
-    fontSize: 18,
-    color: "#333333",
-  },
-});
-
-export default App;
-```
-
-### 3. Single column picker with search bar
-
-```JS
-import React, { useCallback, useState } from "react";
-import { View, Button, Text, StyleSheet } from "react-native";
-import MultiColumnModalPicker from "react-native-multicolumn-modal-picker";
-
-const App = () => {
-  const [visible, setVisible] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("+33");
-  const [selectedCountry, setSelectedCountry] = useState("France");
-
-  let options = [
-    { label: "Australia", value: "+61" },
-    { label: "Argentina", value: "+54" },
-    { label: "Brazil", value: "+55" },
-    { label: "Croatia", value: "+385" },
-    { label: "England", value: "+44" },
-    { label: "France", value: "+33" },
-    { label: "Japan", value: "+81" },
-    { label: "Morocco", value: "+212" },
-    { label: "Netherlands", value: "+31" },
-    { label: "Poland", value: "+48" },
-    { label: "Portugal", value: "+351" },
-    { label: "Senegal", value: "+221" },
-    { label: "South Korea", value: "+82" },
-    { label: "Spain", value: "+34" },
-    { label: "Switzerland", value: "+41" },
-    { label: "United States", value: "+1" },
-  ];
-
-  // Create a mapping object from the values (phone codes) to the labels (country names), especially useful when the array is very large.
-  const countryByPhoneCode = options.reduce((map, option) => {
-    map[option.value] = option.label;
-    return map;
-  }, {});
-
-  // Get the label (country name) from the selected value (phone code).
-  const getCountry = useCallback(() => {
-    return countryByPhoneCode[selectedValue];
-  }, [selectedValue]);
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>
-        This is an example of a Single Column Picker with Search Bar
-      </Text>
-      <Text style={styles.selectedValue}>
-        {selectedCountry} phone code: {selectedValue}
-      </Text>
-      <Button
-        title="Open selector"
-        onPress={() => {
-          setVisible(true);
+          if (columnIndex === 1 && typeof nextValue === "number") {
+            setMinute(nextValue);
+          }
         }}
-      />
-      <MultiColumnModalPicker
-        visible={visible}
-        searchBar
-        column1={options}
-        actionButtons="top"
-        rightInfo={selectedValue}
-        onValueChange1={(value) => setSelectedValue(value)}
-        selectedValue1={selectedValue}
         onClose={() => setVisible(false)}
-        onAccept={() => setSelectedCountry(getCountry())}
+        onAccept={() => console.log(`Selected ${hour}:${minute}`)}
       />
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#111827",
-  },
-  title: {
-    fontSize: 22,
-    textAlign: "center",
-    marginBottom: 20,
-    color: "#E6E6E6",
-  },
-  selectedValue: {
-    fontSize: 18,
-    marginVertical: 10,
-    color: "#E6E6E6",
-  },
-});
-
-export default App;
+}
 ```
 
-## Props
+### Single column with search
 
-The `MultiColumnModalPicker` component accepts the following props:
+Search is available only when a single column is active.
 
-### Required Properties: These are essential for the component to function. The values shown here are based on [Example 1](#1-basic-single-column-picker)
+```tsx
+import { useState } from "react";
+import { Button, View } from "react-native";
+import MultiColumnModalPicker from "react-native-multicolumn-modal-picker";
 
-| **Required Properties** | **Type**      | **Description**                                                                                                                                                                                                                                                                                                                                                | **Usage**                                               |
-|-------------------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
-| `visible`                 | Boolean       | Determines whether the modal is visible or not.                                                                                                                                                                                                                                                                                                                | visible={visible}                                       |
-| `column1`                 | Array         | An array of objects with options for the first column. Each object must have a "label" property and a "value" property.                                                                                                                                                                                                                                        | column1={options}                                       |
-| `selectedValue1`          | String/Number | The selected value in the first column.                                                                                                                                                                                                                                                                                                                        | selectedValue1 = {selectedValue}                        |
-| `onValueChange1`          | Function      | A function that is called when selected value in first column changes.                                                                                                                                                                                                                                                                                         | onValueChange1={(newValue) => setSelectedValue(newValue)} |
-| `onClose`                 | Function      | This property is crucial for closing the selector. It’s best to use `onClose` just for closing the modal without adding any extra actions, as it’s used both when **accepting** and **cancelling**.                                                                                                                                                                                                                                                                                                                            | onClose={() => setVisible(!visible)}                    |
+const countries = [
+  { label: "Australia", value: "+61" },
+  { label: "France", value: "+33" },
+  { label: "Japan", value: "+81" },
+];
 
-### General Properties
+export default function SearchExample() {
+  const [visible, setVisible] = useState(false);
+  const [countryCode, setCountryCode] = useState("+33");
 
-* `onClose`:  _**(Required)**_, _(Function)_ This property is crucial for closing the selector. It’s best to use `onClose` just for closing the modal without adding any extra actions, as it’s used both when **accepting** and **cancelling**.
-* `visible`: _**(Required)**_, _(Boolean)_ Determines whether the modal is visible or not.
-* `actionButtons` _(Optional)_, _(String)_ Controls the visibility and position of the “Accept” and “Cancel” action buttons. The possible values are:
-  * `"none"`: No action buttons are displayed. This is the default value.
-  * `"cancel"`: Only the “Cancel” button is displayed at the bottom.
-  * `"top"`: Both “Accept” and “Cancel” buttons are displayed at the top.
-  * `"bottom"`: Both “Accept” and “Cancel” buttons are displayed at the bottom.
-* `acceptButtonText`: _(Optional)_, _(String)_ Accept button label. Default is _"Accept"_
-* `cancelButtonText`: _(Optional)_, _(String)_ Cancel button label. Default is _"Cancel"_
-* `onAccept`: _(Optional)_, _(Function)_ This function is triggered when the user confirms a selection by pressing the accept button or touching outside of the picker. The inherent logical actions are managed automatically. If this function is defined, it will be added to the existing behavior, not overwrite it.
-* `onCancel`: _(Optional)_, _(Function)_ A function that is called when the user cancels the selection by pressing the cancel button or the physical back button. The inherent logical actions are managed automatically. If this function is defined, it will be added to the existing behavior, not overwrite it.
-* `rightInfo`: _(Optional)_, _(String)_ Text displayed on the right side of the selector. It’s suggested to avoid using with hPadding for best results. This is a guideline, not a rule.
-* `title`: _(Optional)_, _(String)_ Title of picker.
+  return (
+    <View>
+      <Button title="Select country" onPress={() => setVisible(true)} />
+      <MultiColumnModalPicker
+        visible={visible}
+        enableSearch
+        columns={[countries]}
+        selectedValues={[countryCode]}
+        onValueChange={(nextValue) => {
+          if (nextValue !== null) setCountryCode(String(nextValue));
+        }}
+        onClose={() => setVisible(false)}
+      />
+    </View>
+  );
+}
+```
 
-### Column 1 Related Properties
+## API
 
-* `column1`: _**(Required)**_, _(Array)_ An array of objects with options for first column. Each object must have a ‘label’ property and a ‘value’ property.
-* `onValueChange1`: _**(Required)**_, _(Function)_ A function that is called when selected value in first column changes.
-* `selectedValue1`: _**(Required)**_, _(String/Number)_ The selected value in first column. Initialization required upon usage.
+### Public types
 
-### Column 2 Related Properties. To define `column2` , `column1` is required
+The package exposes the public value, item, column, locale, theme, palette, and callback types used by `MultiColumnModalPickerProps` for editor autocomplete and static typing.
 
-* `column2`: _(Optional)_, _(Array)_ An array of objects with options for second column. Each object must have a ‘label’ property and a ‘value’ property.
-* `onValueChange2`: _**(Required if `column2` is defined)**_, _(Function)_ A function that is called when selected value in second column changes.
-* `selectedValue2`: _**(Required if `column2` is defined)**_, _(String/Number)_ The selected value in second column. Initialization required upon usage.
+### Modern API surface
 
-### Column 3 Related Properties. To define `column3` , both `column1` and `column2` are required
+The defaults below reflect the actual TypeScript contract in `MultiColumnModalPickerProps`. Optional props resolve to `undefined` and the component applies runtime fallbacks from the selected theme/locale when needed.
 
-* `column3`: _(Optional)_, _(Array)_ An array of objects with options for third column. Each object must have a ‘label’ property and a ‘value’ property.
-* `onValueChange3`: _**(Required if `column3` is defined)**_, _(Function)_ A function that is called when selected value in third column changes.
-* `selectedValue3`: _**(Required if `column3` is defined)**_, _(String/Number)_ The selected value in third column. Initialization required upon usage.
+| Prop                    | Type                                                                             | Default                             | Description                                                                           |
+| ----------------------- | -------------------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------- |
+| `visible`               | `boolean`                                                                        | required                            | Controls modal visibility.                                                            |
+| `columns`               | `readonly [PickerColumn, PickerColumn?, PickerColumn?]`                          | `undefined`                         | Full column set passed as a tuple.                                                    |
+| `selectedValues`        | `readonly [PickerValue \| null, (PickerValue \| null)?, (PickerValue \| null)?]` | `undefined`                         | Selected values for all columns.                                                      |
+| `onValueChange`         | `(value: PickerValue \| null, columnIndex: number, index?: number) => void`      | `undefined`                         | Called when a picker value changes.                                                   |
+| `onClose`               | `() => void`                                                                     | required                            | Called when the modal closes.                                                         |
+| `onAccept`              | `() => void`                                                                     | `undefined`                         | Called when the user confirms the current selection.                                  |
+| `onCancel`              | `() => void`                                                                     | `undefined`                         | Called when the user cancels without accepting.                                       |
+| `actionButtonsPosition` | `ActionButtonsPosition`                                                          | `"none"`                            | Position of the action buttons row.                                                   |
+| `acceptButtonText`      | `string`                                                                         | `undefined`                         | Custom text for the accept button. If omitted, the localized default applies.         |
+| `cancelButtonText`      | `string`                                                                         | `undefined`                         | Custom text for the cancel button. If omitted, the localized default applies.         |
+| `searchPlaceholder`     | `string`                                                                         | `undefined`                         | Custom placeholder for the search field. If omitted, the localized default applies.   |
+| `enableSearch`          | `boolean`                                                                        | `false`                             | Enables search in single-column mode.                                                 |
+| `theme`                 | `PickerThemeName`                                                                | `undefined` (device theme fallback) | Theme key used to select the base palette. Omitted means use the active system theme. |
+| `customColorScheme`     | `Partial<Record<string, Partial<PickerPalette>>>`                                | `undefined`                         | Final color overrides applied on top of the selected base theme.                      |
+| `locale`                | `PickerLocale`                                                                   | device locale, then `"en"`          | Localizes the built-in default texts when explicit overrides are not provided.        |
+| `rightInfo`             | `string`                                                                         | `undefined`                         | Static text shown to the right side of the picker columns.                            |
+| `title`                 | `string`                                                                         | `undefined`                         | Optional title shown above the picker.                                                |
 
-### Search Bar Related Properties. The use of the Search Bar is completely optional. It can only be used in conjunction with a single column picker. The Search Bar should be combined with `column1`
+### Styling props
 
-* `searchBar`: _(Optional)_,_(Boolean)_ Indicates whether the search bar is displayed or not. _**(Please note that the search bar can only be used when the selector has a single column, specifically with `column1`.)**_
-* `searchBoxStyle`: _(Optional)_,_(JSX style object)_ Determines the style of the search bar. Accepts standard React Native style properties.
-* `searchPlaceholder`: _(Optional)_,_(String)_ Placeholder of the search bar. The default value is "Search here".
-* `searchElementsColor`: _(Optional)_, _(String)_ Defines the color of both the search bar placeholder and the clear button within the search bar. Accepts standard React Native color values.
-* `searchTextStyle`: _(Optional)_,_(JSX style object)_ Determines the text style of the search bar. Accepts standard React Native style properties.
+| Prop                    | Type                   | Description                                           |
+| ----------------------- | ---------------------- | ----------------------------------------------------- |
+| `acceptButtonTextStyle` | `StyleProp<TextStyle>` | Accept button label style.                            |
+| `cancelButtonTextStyle` | `StyleProp<TextStyle>` | Cancel button label style.                            |
+| `horizontalPadding`     | `number`               | Horizontal padding applied around the picker content. |
+| `itemStyle`             | `StyleProp<TextStyle>` | Style applied to picker item labels.                  |
+| `pickerItemTextStyle`   | `StyleProp<TextStyle>` | Compatibility alias for `itemStyle`.                  |
+| `rightInfoTextStyle`    | `StyleProp<TextStyle>` | Style for the right-side info text.                   |
+| `searchBoxStyle`        | `StyleProp<ViewStyle>` | Style applied to the search input container.          |
+| `searchTextStyle`       | `StyleProp<TextStyle>` | Style for the search input text.                      |
+| `titleStyle`            | `StyleProp<TextStyle>` | Style for the title text.                             |
 
-### Style Related Properties
+> All custom color styling should go through `customColorScheme`. Individual color props were removed from the recommended API because they duplicate the same responsibility and make the theme model harder to reason about.
 
-* `acceptButtonTextStyle`: _(Optional)_, _(JSX style object)_ Style of the accept button text. Accepts standard React Native style properties.
-* `actionButtonsBorderColor`: _(Optional)_, _(String)_ This property sets the border color of the action buttons. It is only applicable when `actionButtons` is set to `“top”` or `“bottom”`. Accepts standard React Native color values.
-* `bgColor`: _(Optional)_, _(String)_ Background color of modal. Accepts standard React Native color values.
-* `cancelButtonBgColor`: _(Optional)_, _(String)_ This property sets the background color of the “cancel button” that appears at the bottom of the picker. Accepts standard React Native color values.
-* `cancelButtonTextStyle`: _(Optional)_, _(JSX style object)_ Style of the cancel button text. Accepts standard React Native style properties.
-* `hPadding`: _(Optional)_, _(Number > 0)_ Adds extra horizontal space around the picker.
-* `itemStyle`: _(Optional)_, _(JSX style object)_ Style of the picker items. Accepts standard React Native style properties.
-* `rightInfoTextStyle`: _(Optional)_, _(JSX style object)_ Style of text for additional information to right side of modal. Accepts standard React Native style properties.
-* `selectionHighlightColor`: _(Optional)_, _(String)_ Color of the selection highlight. Accepts standard React Native color values.
-* `titleStyle`:  _(Optional)_, _(JSX style object)_ Style of the title text. Accepts standard React Native style properties.
+### Deprecated aliases
+
+The following props are still supported for compatibility, but they are deprecated as of version 1.1.0 and should be replaced in new code. They remain available only to avoid breaking existing integrations, and they are expected to be removed in a future major version.
+
+| Deprecated prop            | Deprecated since | Replace with            | Notes                                                  |
+| -------------------------- | ---------------- | ----------------------- | ------------------------------------------------------ |
+| `actionButtons`            | `1.1.0`          | `actionButtonsPosition` | Kept for backward compatibility.                       |
+| `bgColor`                  | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model. |
+| `cancelButtonBgColor`      | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model. |
+| `actionButtonsBorderColor` | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model. |
+| `hPadding`                 | `1.1.0`          | `horizontalPadding`     | Kept for backward compatibility.                       |
+| `onValueChange1`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                       |
+| `onValueChange2`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                       |
+| `onValueChange3`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                       |
+| `onValuesChange`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                       |
+| `searchBar`                | `1.1.0`          | `enableSearch`          | Kept for backward compatibility.                       |
+| `searchElementsColor`      | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model. |
+| `selectionHighlightColor`  | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model. |
+
+### Search behavior
+
+Search is optional and only applies when a single column is used. Matching ignores case and accents. An exact value match is preferred; otherwise the first label-ranked match is selected. Clearing the field or finding no match restores the previous value.
+
+### Localization
+
+`locale` only provides the fallback translations for the built-in default texts: the accept button text, the cancel button text, and the search placeholder. If you pass `acceptButtonText`, `cancelButtonText`, or `searchPlaceholder` explicitly, those values take precedence and the locale no longer changes them.
+
+In other words, the precedence is:
+
+1. explicit `acceptButtonText` / `cancelButtonText` / `searchPlaceholder`
+2. fallback translations from the selected `locale`
+3. package defaults
+
+Supported locales in the current public API:
+
+- English (`en`)
+- Español (`es`)
+- Français (`fr`)
+- Deutsch (`de`)
+- Italiano (`it`)
+- Português (`pt`)
+- Русский (`ru`)
+- 日本語 (`ja`)
+- 한국어 (`ko`)
+- 中文 (`zh`)
+- العربية (`ar`)
+- हिन्दी (`hi`)
+- Türkçe (`tr`)
+- Nederlands (`nl`)
+- Polski (`pl`)
+- Svenska (`sv`)
+- Norsk (`nb`)
+- Dansk (`da`)
+- Suomi (`fi`)
+- Čeština (`cs`)
+- Ελληνικά (`el`)
+- Bahasa Indonesia (`id`)
+- ไทย (`th`)
+- Українська (`uk`)
+- עברית (`he`)
+- Română (`ro`)
+- Magyar (`hu`)
+- Slovenčina (`sk`)
+- Tiếng Việt (`vi`)
+
+```tsx
+<MultiColumnModalPicker locale="es" {...props} />
+```
+
+### Theme and custom color schemes
+
+`theme` selects the base palette. `customColorScheme` is the final override layer: you provide only the colors you want to replace, and any omitted values fall back to the selected base theme.
+
+```tsx
+<MultiColumnModalPicker
+  visible={visible}
+  theme="midnight"
+  customColorScheme={{
+    light: {
+      modalBackground: "#F5F5F5",
+      border: "#D8D8D8",
+      selectionHighlight: "#4A90E2",
+    },
+    dark: {
+      modalBackground: "#1E1E1E",
+      border: "#3A3A3A",
+      selectionHighlight: "#7C9CFF",
+    },
+    midnight: {
+      modalBackground: "#111827",
+      border: "#374151",
+      selectionHighlight: "#60A5FA",
+      buttonText: "#F9FAFB",
+    },
+  }}
+  columns={[countries]}
+  selectedValues={[countryCode]}
+  onClose={() => setVisible(false)}
+/>
+```
+
+Partial overrides are supported, and a custom scheme name is only active when `theme` is set to that same name. `customColorScheme` overrides the selected base theme, and any omitted colors fall back to that base theme.
+
+### TypeScript support
+
+The package exports `MultiColumnModalPickerProps`, `PickerLocale`, `PickerValue`, `PickerItem`, `PickerColumn`, `ActionButtonsPosition`, `PickerThemeMode`, `PickerPalette`, `PickerThemeName`, and the callback helper types for editor autocomplete and validation.
+
+## What's new in 1.1.0
+
+- Public TypeScript typings and generated declarations are now exported for editor support and static checks.
+- The public API was cleaned up to use clearer prop names while preserving compatibility aliases.
+- Built-in localized default UI text is available through the `locale` prop for all 30 supported locales.
+
+For the complete version history, see [CHANGELOG.md](./CHANGELOG.md).
 
 ## Contributing
 
-Contributions are welcome to `react-native-multicolumn-modal-picker`.
+Please open an [issue](https://github.com/Rio9735/react-native-multicolumn-modal-picker/issues) or join the [discussion](https://github.com/Rio9735/react-native-multicolumn-modal-picker/discussions/1).
 
-If you have an idea for a new feature or have discovered a bug, please open an [issue](https://github.com/Rio9735/react-native-multicolumn-modal-picker/issues/new) or participate in a [discussion](https://github.com/Rio9735/react-native-multicolumn-modal-picker/discussions/1).
-
-Don't forget to add a **title** and a **description** explaining the issue you're trying to solve and your proposed solution.
-
-Screenshots or gifs are helpful to add to the repository for reviews.
-
-## Do you like this package?
-
-Thank you for using my package! Your support is greatly appreciated and it motivates me to continue improving and adding new features. If you find my package useful, please consider giving it a :star: on GitHub. This lets me know that I’m on the right track and encourages me to keep going.
-
-[Give it a star!](https://github.com/Rio9735/react-native-multicolumn-modal-picker)
-
-## Changelog
-
-For a detailed list of changes in each version, please refer to the [CHANGELOG](./CHANGELOG.md)
+If this package is useful, consider giving it a [star on GitHub](https://github.com/Rio9735/react-native-multicolumn-modal-picker).
 
 ## Author
 
-_**Río**_
-
-Feel free to [Contact me](mailto:markidelrio@gmail.com).
+_**Río**_ · [markidelrio@gmail.com](mailto:markidelrio@gmail.com)
 
 ## License
 
-The library is released under the MIT license. For more details see [LICENSE](./LICENSE)
+MIT. See [LICENSE](./LICENSE).

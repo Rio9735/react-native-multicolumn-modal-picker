@@ -6,14 +6,17 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 24.21.0
           cache: npm
@@ -32,10 +35,10 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30af803 # v6
 
       - name: Set up Node.js for npm publish
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 24.21.0
           registry-url: https://registry.npmjs.org/
@@ -56,12 +59,12 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30af803 # v6
         with:
           ref: ${{ github.event.repository.default_branch }}
 
       - name: Set up Node.js
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 24.21.0
           cache: npm
@@ -73,6 +76,21 @@ jobs:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           package_version="${RELEASE_TAG#v}"
+
+          for attempt in {1..18}; do
+            if npm view "react-native-multicolumn-modal-picker@${package_version}" version --registry=https://registry.npmjs.org/ | grep -qx "${package_version}"; then
+              break
+            fi
+
+            if [ "${attempt}" -eq 18 ]; then
+              echo "Version ${package_version} is not available on npm after waiting for registry propagation."
+              exit 1
+            fi
+
+            echo "Waiting for react-native-multicolumn-modal-picker@${package_version} to become available on npm (attempt ${attempt}/18)."
+            sleep 10
+          done
+
           npm install "react-native-multicolumn-modal-picker@${package_version}" --save-exact --package-lock-only --ignore-scripts
 
       - name: Commit example app update

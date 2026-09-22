@@ -368,9 +368,11 @@ The package exports `MultiColumnModalPickerProps`, `PickerLocale`, `PickerValue`
 
 ## What's new in 1.1.0
 
-- Public TypeScript typings and generated declarations are now exported for editor support and static checks.
-- The public API was cleaned up to use clearer prop names while preserving compatibility aliases.
-- Built-in localized default UI text is available through the `locale` prop for 29 supported values, with device detection for `nn` normalized to `nb`.
+- More flexible picker configuration with clearer controls for columns, actions, search, styling, and themes.
+- New light, dark, and custom theme options with an animated, customizable modal backdrop.
+- Built-in localized defaults for 29 languages, plus support for any additional language through your app's own translations.
+- More reliable search and selection behavior, including accent-insensitive matching.
+- Updated examples and documentation showing practical multi-column and searchable picker flows.
 
 For the complete version history, see [CHANGELOG.md](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/CHANGELOG.md).
 
@@ -382,7 +384,7 @@ If this package is useful, consider giving it a [star on GitHub](https://github.
 
 ## Author
 
-_**Río**_ · [markidelrio@gmail.com](mailto:markidelrio@gmail.com)
+_**Río**_ · [marcosdelrio.dev@gmail.com](mailto:marcosdelrio.dev@gmail.com)
 
 ## License
 

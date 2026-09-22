@@ -388,4 +388,4 @@ _**Río**_ · [marcosdelrio.dev@gmail.com](mailto:marcosdelrio.dev@gmail.com)
 
 ## License
 
-MIT. See [LICENSE](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/LICENSE).
+MIT. See [LICENSE](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/LICENSE)

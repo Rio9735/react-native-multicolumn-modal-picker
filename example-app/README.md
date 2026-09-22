@@ -9,7 +9,7 @@ Open a terminal (Command Prompt (cmd), PowerShell, macOS Terminal, or Linux term
 These commands download only the `example-app` directory from the repository:
 
 ```bash
-git clone --depth 1 --no-checkout https://github.com/Rio9735/react-native-multicolumn-modal-picker.git
+git clone --depth 1 --no-checkout https://github.com/iamRio/react-native-multicolumn-modal-picker.git
 cd react-native-multicolumn-modal-picker
 git sparse-checkout set --no-cone /example-app/
 git checkout

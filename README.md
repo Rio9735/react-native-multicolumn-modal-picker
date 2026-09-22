@@ -2,8 +2,8 @@
 
 [![npm](https://img.shields.io/npm/v/react-native-multicolumn-modal-picker?label=npm%20version)](https://www.npmjs.com/package/react-native-multicolumn-modal-picker)
 [![monthly downloads](https://img.shields.io/npm/dm/react-native-multicolumn-modal-picker?label=monthly%20downloads)](https://www.npmjs.com/package/react-native-multicolumn-modal-picker)
-[![platform](https://img.shields.io/badge/platform-iOS-lightgrey)](https://github.com/Rio9735/react-native-multicolumn-modal-picker)
-[![license](https://img.shields.io/npm/l/react-native-multicolumn-modal-picker)](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/LICENSE)
+[![platform](https://img.shields.io/badge/platform-iOS-lightgrey)](https://github.com/iamRio/react-native-multicolumn-modal-picker)
+[![license](https://img.shields.io/npm/l/react-native-multicolumn-modal-picker)](https://github.com/iamRio/react-native-multicolumn-modal-picker/blob/main/LICENSE)
 
 ## A flexible React Native modal picker with up to three configurable columns, optional single-column search, customizable actions and styling, and localized default text
 
@@ -50,22 +50,22 @@ When the modal opens, the picker slides up while the customizable backdrop fades
 
 Try the package in the included example app:
 
-[Open example app](https://github.com/Rio9735/react-native-multicolumn-modal-picker/tree/main/example-app)
+[Open example app](https://github.com/iamRio/react-native-multicolumn-modal-picker/tree/main/example-app)
 
 ## Demo
 
 <!-- markdownlint-disable MD033 -->
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/singleColumnSelector.gif" alt="Single-column picker" height="400" />
-  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/twoColumnSelector.gif" alt="Two-column picker" height="400" />
-  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/singleColumnSelectorSearchBar.gif" alt="Single-column picker with search" height="400" />
+  <img src="https://raw.githubusercontent.com/iamRio/react-native-multicolumn-modal-picker/main/assets/singleColumnSelector.gif" alt="Single-column picker" height="400" />
+  <img src="https://raw.githubusercontent.com/iamRio/react-native-multicolumn-modal-picker/main/assets/twoColumnSelector.gif" alt="Two-column picker" height="400" />
+  <img src="https://raw.githubusercontent.com/iamRio/react-native-multicolumn-modal-picker/main/assets/singleColumnSelectorSearchBar.gif" alt="Single-column picker with search" height="400" />
 </p>
 
 ## Usage
 
 ### Plan and billing picker
 
-For a fully styled implementation, check out [`BasicPickerExample`](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/example-app/components/basic-picker-example.tsx) in the [example app](https://github.com/Rio9735/react-native-multicolumn-modal-picker/tree/main/example-app).
+For a fully styled implementation, check out [`MultiColumnsExample`](https://github.com/iamRio/react-native-multicolumn-modal-picker/blob/main/example-app/components/multi-columns-example.tsx) in the [example app](https://github.com/iamRio/react-native-multicolumn-modal-picker/tree/main/example-app).
 
 ```tsx
 import { useState } from "react";
@@ -136,7 +136,7 @@ The cancel button and the modal request-close event restore the values from when
 
 ### Destination search picker
 
-For a fully styled implementation, check out [`SingleColumnWithSearchExample`](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/example-app/components/single-column-with-search-example.tsx) in the [example app](https://github.com/Rio9735/react-native-multicolumn-modal-picker/tree/main/example-app).
+For a fully styled implementation, check out [`SingleColumnWithSearchExample`](https://github.com/iamRio/react-native-multicolumn-modal-picker/blob/main/example-app/components/single-column-with-search-example.tsx) in the [example app](https://github.com/iamRio/react-native-multicolumn-modal-picker/tree/main/example-app).
 
 Search is available when exactly one column is active. This example keeps the picker synchronized with the device appearance by using `theme="auto"`.
 
@@ -254,22 +254,22 @@ The selected-value highlight is currently disabled. `selectionHighlight` and `se
 
 ### Deprecated aliases
 
-The following props are still supported for compatibility, but they are deprecated as of version 1.1.0 and should be replaced in new code. They remain available only to avoid breaking existing integrations, and they are expected to be removed in a future major version.
+The following props are still supported for compatibility, but they are deprecated as of version 1.1.1 and should be replaced in new code. They remain available only to avoid breaking existing integrations, and they are expected to be removed in a future major version.
 
 | Deprecated prop            | Deprecated since | Replace with            | Notes                                                             |
 | -------------------------- | ---------------- | ----------------------- | ----------------------------------------------------------------- |
-| `actionButtons`            | `1.1.0`          | `actionButtonsPosition` | Kept for backward compatibility.                                  |
-| `bgColor`                  | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
-| `cancelButtonBgColor`      | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
-| `actionButtonsBorderColor` | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
-| `hPadding`                 | `1.1.0`          | `horizontalPadding`     | Kept for backward compatibility.                                  |
-| `onValueChange1`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                                  |
-| `onValueChange2`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                                  |
-| `onValueChange3`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                                  |
-| `onValuesChange`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                                  |
-| `searchBar`                | `1.1.0`          | `enableSearch`          | Kept for backward compatibility.                                  |
-| `searchElementsColor`      | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
-| `selectionHighlightColor`  | `1.1.0`          | `customColorScheme`     | Legacy alias; the selected-value highlight is currently disabled. |
+| `actionButtons`            | `1.1.1`          | `actionButtonsPosition` | Kept for backward compatibility.                                  |
+| `bgColor`                  | `1.1.1`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
+| `cancelButtonBgColor`      | `1.1.1`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
+| `actionButtonsBorderColor` | `1.1.1`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
+| `hPadding`                 | `1.1.1`          | `horizontalPadding`     | Kept for backward compatibility.                                  |
+| `onValueChange1`           | `1.1.1`          | `onValueChange`         | Kept for backward compatibility.                                  |
+| `onValueChange2`           | `1.1.1`          | `onValueChange`         | Kept for backward compatibility.                                  |
+| `onValueChange3`           | `1.1.1`          | `onValueChange`         | Kept for backward compatibility.                                  |
+| `onValuesChange`           | `1.1.1`          | `onValueChange`         | Kept for backward compatibility.                                  |
+| `searchBar`                | `1.1.1`          | `enableSearch`          | Kept for backward compatibility.                                  |
+| `searchElementsColor`      | `1.1.1`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
+| `selectionHighlightColor`  | `1.1.1`          | `customColorScheme`     | Legacy alias; the selected-value highlight is currently disabled. |
 
 ### Search behavior
 
@@ -366,7 +366,7 @@ Partial overrides are supported, and a custom scheme name is only active when `t
 
 The package exports `MultiColumnModalPickerProps`, `PickerLocale`, `PickerValue`, `PickerItem`, `PickerColumn`, `ActionButtonsPosition`, `PickerThemeMode`, `PickerPalette`, `PickerThemeName`, and the callback helper types for editor autocomplete and validation.
 
-## What's new in 1.1.0
+## What's new in 1.1.1
 
 - More flexible picker configuration with clearer controls for columns, actions, search, styling, and themes.
 - New light, dark, and custom theme options with an animated, customizable modal backdrop.
@@ -374,13 +374,13 @@ The package exports `MultiColumnModalPickerProps`, `PickerLocale`, `PickerValue`
 - More reliable search and selection behavior, including accent-insensitive matching.
 - Updated examples and documentation showing practical multi-column and searchable picker flows.
 
-For the complete version history, see [CHANGELOG.md](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/CHANGELOG.md).
+For the complete version history, see [CHANGELOG.md](https://github.com/iamRio/react-native-multicolumn-modal-picker/blob/main/CHANGELOG.md).
 
 ## Contributing
 
-Please open an [issue](https://github.com/Rio9735/react-native-multicolumn-modal-picker/issues) or join the [discussion](https://github.com/Rio9735/react-native-multicolumn-modal-picker/discussions/1).
+Please open an [issue](https://github.com/iamRio/react-native-multicolumn-modal-picker/issues) or join the [discussion](https://github.com/iamRio/react-native-multicolumn-modal-picker/discussions/1).
 
-If this package is useful, consider giving it a [star on GitHub](https://github.com/Rio9735/react-native-multicolumn-modal-picker).
+If this package is useful, consider giving it a [star on GitHub](https://github.com/iamRio/react-native-multicolumn-modal-picker).
 
 ## Author
 
@@ -388,4 +388,4 @@ _**Río**_ · [marcosdelrio.dev@gmail.com](mailto:marcosdelrio.dev@gmail.com)
 
 ## License
 
-MIT. See [LICENSE](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/LICENSE)
+MIT. See [LICENSE](https://github.com/iamRio/react-native-multicolumn-modal-picker/blob/main/LICENSE)

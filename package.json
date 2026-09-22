@@ -22,11 +22,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rio9735/react-native-multicolumn-modal-picker.git"
+    "url": "git+https://github.com/iamRio/react-native-multicolumn-modal-picker.git"
   },
-  "homepage": "https://github.com/Rio9735/react-native-multicolumn-modal-picker",
+  "homepage": "https://github.com/iamRio/react-native-multicolumn-modal-picker",
   "bugs": {
-    "url": "https://github.com/Rio9735/react-native-multicolumn-modal-picker/issues"
+    "url": "https://github.com/iamRio/react-native-multicolumn-modal-picker/issues"
   },
   "keywords": [
     "react-native",

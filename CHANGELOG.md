@@ -50,7 +50,7 @@ The following props still work for compatibility, but they were deprecated in `1
 
 ### Migration note
 
-Legacy aliases from 1.0.x remain supported as deprecated compatibility shims. New projects should use the current prop names, explicit text overrides for custom localizations, and `theme` + `customColorScheme` for styling. See the [README](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/README.md) for migration details.
+Legacy aliases from 1.0.x remain supported as deprecated compatibility shims. New projects should use the current prop names, explicit text overrides for custom localizations, and `theme` + `customColorScheme` for styling. See the [README](https://github.com/iamRio/react-native-multicolumn-modal-picker/blob/main/README.md) for migration details.
 
 ## [1.0.9] - 2023-11-07
 
@@ -94,7 +94,7 @@ Legacy aliases from 1.0.x remain supported as deprecated compatibility shims. Ne
 
 ### Added (1.0.5)
 
-- New property `actionButtons` has been added. This property controls both the visibility and the position of the “Accept” and “Cancel” action buttons. It supports several values including `"none"`, `"cancel"`, `"top"`, and `"bottom"`. For more details, please refer to the [documentation](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/README.md).
+- New property `actionButtons` has been added. This property controls both the visibility and the position of the “Accept” and “Cancel” action buttons. It supports several values including `"none"`, `"cancel"`, `"top"`, and `"bottom"`. For more details, please refer to the [documentation](https://github.com/iamRio/react-native-multicolumn-modal-picker/blob/main/README.md).
 - New property `actionButtonsBorderColor` has been added. This property allows you to set the border color of the action buttons.
 - `prop-types` dependency for runtime prop type validation, enhancing error detection and code quality. It also eases component implementation by providing autocomplete with a brief description of each prop and its data type.
 
@@ -123,12 +123,12 @@ These changes provide more flexibility in controlling the visibility and positio
 ### Changes (1.0.4)
 
 - Discontinued support for versions prior to `1.0.4`. Developers are encouraged to update to the latest version. Thanks for understanding.
-- Limited package use to `iOS` only. This decision was made to prevent potential errors and dissatisfaction for developers using the package for `Android` applications. For more details see the [README](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/README.md).
+- Limited package use to `iOS` only. This decision was made to prevent potential errors and dissatisfaction for developers using the package for `Android` applications. For more details see the [README](https://github.com/iamRio/react-native-multicolumn-modal-picker/blob/main/README.md).
 - Important performance adjustments and minor corrections.
 
 ### Added (1.0.4)
 
-- Implemented the search bar in the selector. See the [current README](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/README.md) for the current search API.
+- Implemented the search bar in the selector. See the [current README](https://github.com/iamRio/react-native-multicolumn-modal-picker/blob/main/README.md) for the current search API.
 - Added search and styling properties for the selector.
 
 ### Modified (1.0.4)
@@ -175,4 +175,4 @@ These changes provide more flexibility in controlling the visibility and positio
 
 Thank you for using my package! Your support is greatly appreciated and it motivates me to continue improving and adding new features. If you find it useful, please consider giving it a :star: on GitHub. This lets me know that I’m on the right track and encourages me to keep going.
 
-[Give it a star!](https://github.com/Rio9735/react-native-multicolumn-modal-picker)
+[Give it a star!](https://github.com/iamRio/react-native-multicolumn-modal-picker)

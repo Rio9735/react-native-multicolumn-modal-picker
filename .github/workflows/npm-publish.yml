@@ -81,18 +81,18 @@ jobs:
         run: |
           package_version="${RELEASE_TAG#v}"
 
-          for attempt in {1..18}; do
+          for attempt in {1..15}; do
             if npm view "react-native-multicolumn-modal-picker@${package_version}" version --registry=https://registry.npmjs.org/ | grep -qx "${package_version}"; then
               break
             fi
 
-            if [ "${attempt}" -eq 18 ]; then
+            if [ "${attempt}" -eq 15 ]; then
               echo "Version ${package_version} is not available on npm after waiting for registry propagation."
               exit 1
             fi
 
-            echo "Waiting for react-native-multicolumn-modal-picker@${package_version} to become available on npm (attempt ${attempt}/18)."
-            sleep 10
+            echo "Waiting for react-native-multicolumn-modal-picker@${package_version} to become available on npm (attempt ${attempt}/15)."
+            sleep 60
           done
 
           npm install "react-native-multicolumn-modal-picker@${package_version}" --save-exact --package-lock-only --ignore-scripts

@@ -73,9 +73,9 @@
   },
   "dependencies": {},
   "peerDependencies": {
+    "@react-native-picker/picker": ">=2.0.0",
     "react": ">=16.8.0",
     "react-native": ">=0.62.0",
-    "@react-native-picker/picker": ">=2.0.0",
     "react-native-safe-area-context": ">= 4.0.0"
   },
   "devDependencies": {

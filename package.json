@@ -1,6 +1,6 @@
 {
   "name": "react-native-multicolumn-modal-picker",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A customizable multi-column modal picker for React Native iOS, supporting up to 3 selection columns.",
   "license": "MIT",
   "author": "Marcos A. Del Río Rodríguez <marcosdelrio.dev@email.com>",
@@ -68,7 +68,7 @@
     "lint": "npx --yes oxlint src",
     "validate": "npm run format:check && npm run typecheck && npm run lint",
     "build": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.json",
-    "example:local": "npm run build && npm pack && npm install --prefix example-app ./react-native-multicolumn-modal-picker-1.1.0.tgz --no-save --package-lock=false --ignore-scripts && node -e \"require('node:fs').rmSync('react-native-multicolumn-modal-picker-1.1.0.tgz',{force:true})\" && npm --prefix example-app start",
+    "example:local": "npm run build && npm pack && npm install --prefix example-app ./react-native-multicolumn-modal-picker-1.1.1.tgz --no-save --package-lock=false --ignore-scripts && node -e \"require('node:fs').rmSync('react-native-multicolumn-modal-picker-1.1.1.tgz',{force:true})\" && npm --prefix example-app start",
     "example:restore": "npm install --prefix example-app --ignore-scripts"
   },
   "dependencies": {},

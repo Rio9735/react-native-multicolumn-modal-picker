@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.1.0] - 2026-09-22
+## [1.1.1] - 2026-09-22
 
 ### Highlights
 
@@ -31,7 +31,7 @@
 
 ### Deprecated
 
-The following props still work for compatibility, but they were deprecated in `1.1.0` and will be removed in a future major version:
+The following props still work for compatibility, but they were deprecated in `1.1.1` and will be removed in a future major version:
 
 - `actionButtons` -> `actionButtonsPosition`
 - `bgColor` -> `customColorScheme`

@@ -17,11 +17,13 @@ type SearchBarProps = {
   placeholder: string;
   placeholderTextColor: string;
   searchValue: string;
+  searchBarBorderRadius: number;
+  searchClearButtonBorderRadius: number;
   searchBoxStyle?: StyleProp<ViewStyle>;
   searchTextStyle?: StyleProp<TextStyle>;
   inputRef: RefObject<ComponentRef<typeof TextInputComponent> | null>;
   onChangeText: (text: string) => void;
-  onFocus: () => void;
+  onFocus?: () => void;
   onBlur: () => void;
 };
 
@@ -36,12 +38,20 @@ export const SearchBar = ({
   searchBoxStyle,
   searchTextStyle,
   inputRef,
+  searchBarBorderRadius,
+  searchClearButtonBorderRadius,
   onChangeText,
   onFocus,
   onBlur,
 }: SearchBarProps) => (
   <View style={styles.searchBarWrapper}>
-    <View style={[styles.searchBar, { backgroundColor }, searchBoxStyle]}>
+    <View
+      style={[
+        styles.searchBar,
+        { backgroundColor, borderRadius: searchBarBorderRadius },
+        searchBoxStyle,
+      ]}
+    >
       <TextInput
         style={[styles.searchInput, { color: inputColor }, searchTextStyle]}
         ref={inputRef}
@@ -56,7 +66,13 @@ export const SearchBar = ({
       />
       {searchValue.length > 0 && (
         <TouchableOpacity
-          style={[styles.searchClearBtn, { backgroundColor: clearButtonColor }]}
+          style={[
+            styles.searchClearBtn,
+            {
+              backgroundColor: clearButtonColor,
+              borderRadius: searchClearButtonBorderRadius,
+            },
+          ]}
           onPress={() => onChangeText("")}
         >
           <Text style={[styles.searchClearText, { color: clearTextColor }]}>

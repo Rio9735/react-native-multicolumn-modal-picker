@@ -7,12 +7,15 @@ export type {
   ActionButtonsPosition,
   MultiColumnModalPickerProps,
   PickerColumn,
+  PickerColumnValueChangeHandler,
   PickerItem,
   PickerLocale,
   PickerPalette,
   PickerThemeMode,
   PickerThemeName,
   PickerValue,
+  PickerValueChangeHandler,
+  PickerValuesChangeHandler,
 } from "./types";
 
 const MultiColumnModalPicker = (props: MultiColumnModalPickerProps) => {

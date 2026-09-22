@@ -22,45 +22,48 @@ type PickerColumnsProps = {
   ];
 };
 
-export const PickerColumns = ({
-  columns,
-  selectedValues,
-  itemStyle,
-  itemTextColor,
-  onValueChanges,
-}: PickerColumnsProps) => (
-  <>
-    {columns.map((column, columnIndex) => {
-      if (!column) {
-        return null;
-      }
+export const PickerColumns = React.memo(
+  ({
+    columns,
+    selectedValues,
+    itemStyle,
+    itemTextColor,
+    onValueChanges,
+  }: PickerColumnsProps) => {
+    return (
+      <>
+        {columns.map((column, columnIndex) => {
+          if (!column || column.length === 0) {
+            return null;
+          }
 
-      return (
-        <Picker
-          key={`picker-${columnIndex}`}
-          style={styles.picker}
-          itemStyle={[
-            styles.itemText,
-            {
-              color: itemTextColor,
-            },
-            itemStyle,
-          ]}
-          selectionColor="transparent"
-          selectedValue={selectedValues[columnIndex]}
-          onValueChange={onValueChanges[columnIndex]}
-        >
-          {column.map((item, itemIndex) => (
-            <Picker.Item
-              key={`${item.value}-${itemIndex}`}
-              label={item.label}
-              value={item.value}
-            />
-          ))}
-        </Picker>
-      );
-    })}
-  </>
+          return (
+            <Picker
+              key={`picker-wrapper-${columnIndex}`}
+              style={styles.picker}
+              itemStyle={[
+                styles.itemText,
+                {
+                  color: itemTextColor,
+                },
+                itemStyle,
+              ]}
+              selectedValue={selectedValues[columnIndex]}
+              onValueChange={onValueChanges[columnIndex]}
+            >
+              {column.map((item, itemIndex) => (
+                <Picker.Item
+                  key={`${item.value}-${itemIndex}`}
+                  label={item.label}
+                  value={item.value}
+                />
+              ))}
+            </Picker>
+          );
+        })}
+      </>
+    );
+  },
 );
 
 const styles = StyleSheet.create({

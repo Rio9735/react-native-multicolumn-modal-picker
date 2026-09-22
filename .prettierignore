@@ -2,3 +2,5 @@ node_modules/
 dist/
 .github/
 .vscode/
+example-app/node_modules/
+example-app/.expo/

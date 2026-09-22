@@ -1,31 +1,33 @@
 # Changelog
 
-## [1.1.0] - 2026-09-21
+## [1.1.0] - 2026-09-22
 
 ### Highlights
 
-- The public API has been cleaned up and standardized with clearer, more descriptive prop names.
-- TypeScript support was expanded and exported types were clarified for better editor autocomplete and developer guidance.
-- Legacy props are still accepted as deprecated aliases to preserve compatibility while encouraging migration to the new API.
-- Built-in localized default UI text with support for 30 locales via the `locale` prop.
-- Added a flexible theme system via `theme` and `customColorScheme`, while preserving the previous color props as deprecated compatibility aliases.
+- Standardized API names with full TypeScript support and backward-compatible deprecated aliases.
+- Added built-in localized defaults, custom themes, flexible styling options, and a native-driver modal overlay.
+- Added `react-native-safe-area-context` as a peer dependency for safe-area layout handling.
 
 ### Added
 
-- Exported TypeScript public types and helper types for the main picker API.
-- Built-in default UI text translations via the `locale` prop for 30 supported locales.
-- A centralized theming model built around `theme` and `customColorScheme`, with palette resolution handled through the package defaults and theme-specific overrides.
-- Modern prop names for clearer usage, including `actionButtonsPosition`, `enableSearch`, `horizontalPadding`, `itemStyle`, `onValueChange`, `selectedValues`, `columns`, and `theme`.
-- Explicit text props take precedence over localized defaults: `acceptButtonText`, `cancelButtonText`, and `searchPlaceholder` override the `locale` fallback when provided.
+- Exported TypeScript types and helper definitions for the public picker API.
+- Built-in UI text translations via the `locale` prop for 29 supported languages, including automatic device detection for Norwegian Nynorsk (`nn`) normalized to `nb`.
+- A centralized theming model built around `theme` and `customColorScheme` for clean palette configuration.
+- Added the `overlay` palette color for customizing the modal backdrop.
+- New, clearer prop names including `actionButtonsPosition`, `enableSearch`, `horizontalPadding`, `itemStyle`, `onValueChange`, `selectedValues`, `columns`, and `theme`.
+- Explicit text props (`acceptButtonText`, `cancelButtonText`, `searchPlaceholder`) now take precedence over localized defaults.
+- Added optional `onSearchFocus` and `onSearchBlur` callbacks for single-column search interactions.
+- Added configurable border-radius properties for the modal, search bar, search clear button, and action buttons (all defaulting to `10`).
+- Kept the selected-value highlight inactive for now; its compatibility props remain available but have no visible effect.
 
 ### Changed
 
-- Preserved the existing behavior for legacy aliases while adding the new locale and theming API surface and clarifying the public TypeScript contract.
-- Centralized palette resolution so `theme` and `customColorScheme` merge cleanly with the package defaults and theme-specific overrides.
-- Updated the package documentation and examples to reflect the recommended usage.
-- Kept compatibility for older prop names through deprecated aliases and compatibility handling in the implementation.
-- Updated `@react-native-picker/picker` to `2.11.4`.
-- Compatibility is documented for React `>=16.8.0` and React Native `>=0.62.0`, matching the current `peerDependencies`.
+- Preserved backward compatibility for legacy aliases while introducing the new theming and localization API.
+- Updated documentation and reference examples for multi-column pickers and theme-aware search flows.
+- Optimized package distribution with React Native-aware exports and generated CommonJS outputs.
+- Updated peer dependencies to include `react-native-safe-area-context`.
+- Improved search reliability with case- and accent-insensitive matching and proper selection state restoration.
+- Refined multi-column rendering and fixed lifecycle callback order for cancellation actions.
 
 ### Deprecated
 
@@ -33,10 +35,10 @@ The following props still work for compatibility, but they were deprecated in `1
 
 - `actionButtons` -> `actionButtonsPosition`
 - `bgColor` -> `customColorScheme`
-- `cancelButtonBgColor` -> legacy override for the cancel button background; prefer the modern theming model via `theme` + `customColorScheme`
+- `cancelButtonBgColor` -> legacy override for cancel button background; use `theme` + `customColorScheme` instead
 - `actionButtonsBorderColor` -> `customColorScheme`
 - `searchElementsColor` -> `customColorScheme`
-- `selectionHighlightColor` -> `customColorScheme`
+- `selectionHighlightColor` -> retained for compatibility (currently inactive)
 - `hPadding` -> `horizontalPadding`
 - `searchBar` -> `enableSearch`
 - `onValueChange1`, `onValueChange2`, `onValueChange3` -> `onValueChange`
@@ -44,17 +46,11 @@ The following props still work for compatibility, but they were deprecated in `1
 
 ### Removed
 
-- Removed the runtime `prop-types` dependency. TypeScript is now the source of truth for the public API contract.
+- Removed the runtime `prop-types` dependency in favor of native TypeScript definitions.
 
 ### Migration note
 
-Only the legacy aliases that were already part of the public API in 1.0.x remain supported as deprecated compatibility shims in 1.1.0.
-
-Localization follows a clear precedence rule: explicit `acceptButtonText`, `cancelButtonText`, and `searchPlaceholder` values override the translations from `locale`. The `locale` prop only fills in the fallback text when those props are not provided. This makes it possible to localize the default UI while still overriding individual labels when needed.
-
-The current theming model is centered on `theme` + `customColorScheme`, which provides a single palette-resolution layer for the modern API. Legacy color props such as `cancelButtonBgColor` remain supported at runtime as compatibility aliases, but new implementations should prefer the centralized theming flow.
-
-Applications that still use the legacy props from the previous public API continue to work as deprecated compatibility shims. New projects should prefer the modern names listed above.
+Legacy aliases from 1.0.x remain supported as deprecated compatibility shims. New projects should use the current prop names, explicit text overrides for custom localizations, and `theme` + `customColorScheme` for styling. See the [README](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/README.md) for migration details.
 
 ## [1.0.9] - 2023-11-07
 
@@ -98,7 +94,7 @@ Applications that still use the legacy props from the previous public API contin
 
 ### Added (1.0.5)
 
-- New property `actionButtons` has been added. This property controls both the visibility and the position of the “Accept” and “Cancel” action buttons. It supports several values including `"none"`, `"cancel"`, `"top"`, and `"bottom"`. For more details, please refer to the [documentation](./README.md#general-properties).
+- New property `actionButtons` has been added. This property controls both the visibility and the position of the “Accept” and “Cancel” action buttons. It supports several values including `"none"`, `"cancel"`, `"top"`, and `"bottom"`. For more details, please refer to the [documentation](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/README.md).
 - New property `actionButtonsBorderColor` has been added. This property allows you to set the border color of the action buttons.
 - `prop-types` dependency for runtime prop type validation, enhancing error detection and code quality. It also eases component implementation by providing autocomplete with a brief description of each prop and its data type.
 
@@ -127,13 +123,13 @@ These changes provide more flexibility in controlling the visibility and positio
 ### Changes (1.0.4)
 
 - Discontinued support for versions prior to `1.0.4`. Developers are encouraged to update to the latest version. Thanks for understanding.
-- Limited package use to `iOS` only. This decision was made to prevent potential errors and dissatisfaction for developers using the package for `Android` applications. For more details see the [Compatibility](./README.md#compatibility) section in the documentation.
+- Limited package use to `iOS` only. This decision was made to prevent potential errors and dissatisfaction for developers using the package for `Android` applications. For more details see the [README](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/README.md).
 - Important performance adjustments and minor corrections.
 
 ### Added (1.0.4)
 
-- Implemented the search bar in the selector. [See Example 3](./README.md#3-single-column-picker-with-search-bar).
-- New properties were added for the [search bar](./README.md#search-bar-related-properties-the-use-of-the-search-bar-is-completely-optional-it-can-only-be-used-in-conjunction-with-a-single-column-picker-the-search-bar-should-be-combined-with-column1) (`searchBar`, `searchBoxStyle`, `searchPlaceholder`, `searchPlaceholderTextColor`, `searchTextStyle`). In addition, the properties `acceptButtonTextStyle`, `cancelButtonBgColor`, `cancelButtonTextStyle`, `itemStyle`, `rightInfoTextStyle`, `showActionButtons`, `showCancelButton` and `titleStyle` were incorporated to provide greater flexibility in other aspects of the user interface.
+- Implemented the search bar in the selector. See the [current README](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/README.md) for the current search API.
+- Added search and styling properties for the selector.
 
 ### Modified (1.0.4)
 

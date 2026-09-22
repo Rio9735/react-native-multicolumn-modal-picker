@@ -1,33 +1,89 @@
-# This workflow validates with Node.js 24.21.0 and publishes the package when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-
-name: Node.js Package
+name: CI and package publish
 
 on:
+  push:
+  pull_request:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
         with:
           node-version: 24.21.0
-      - run: npm ci
-      - run: npm run validate
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run validation
+        run: npm run validate
 
   publish-npm:
-    needs: build
+    if: github.event_name == 'release'
+    needs: validate
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+
+      - name: Set up Node.js for npm publish
+        uses: actions/setup-node@v7
         with:
           node-version: 24.21.0
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Publish to npm
+        run: npm publish --access public
+
+  update-example:
+    if: github.event_name == 'release'
+    needs: publish-npm
+    runs-on: ubuntu-latest
+    concurrency:
+      group: update-example-${{ github.event.repository.default_branch }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.21.0
+          cache: npm
+          cache-dependency-path: example-app/package-lock.json
+
+      - name: Update example app dependency
+        working-directory: example-app
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          package_version="${RELEASE_TAG#v}"
+          npm install "react-native-multicolumn-modal-picker@${package_version}" --save-exact --package-lock-only --ignore-scripts
+
+      - name: Commit example app update
+        run: |
+          if git diff --quiet -- example-app/package.json example-app/package-lock.json; then
+            echo "Example app is already using the published version."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add example-app/package.json example-app/package-lock.json
+          git commit -m "chore: update example app package version"
+          git push

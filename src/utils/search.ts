@@ -10,7 +10,7 @@ export const matchesPickerItem = (item: PickerItem, text: string) => {
   const normalizedText = normalizeSearchText(text);
   return (
     normalizeSearchText(item.label).includes(normalizedText) ||
-    String(item.value).includes(text)
+    normalizeSearchText(String(item.value)).includes(normalizedText)
   );
 };
 

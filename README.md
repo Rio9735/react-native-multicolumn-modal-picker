@@ -3,18 +3,9 @@
 [![npm](https://img.shields.io/npm/v/react-native-multicolumn-modal-picker?label=npm%20version)](https://www.npmjs.com/package/react-native-multicolumn-modal-picker)
 [![monthly downloads](https://img.shields.io/npm/dm/react-native-multicolumn-modal-picker?label=monthly%20downloads)](https://www.npmjs.com/package/react-native-multicolumn-modal-picker)
 [![platform](https://img.shields.io/badge/platform-iOS-lightgrey)](https://github.com/Rio9735/react-native-multicolumn-modal-picker)
-[![license](https://img.shields.io/npm/l/react-native-multicolumn-modal-picker)](./LICENSE)
+[![license](https://img.shields.io/npm/l/react-native-multicolumn-modal-picker)](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/LICENSE)
 
 ## A flexible React Native modal picker with up to three configurable columns, optional single-column search, customizable actions and styling, and localized default text
-
-## Demo
-
-<!-- markdownlint-disable MD033 -->
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/singleColumnSelector.gif" alt="Single-column picker" height="400" />
-  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/twoColumnSelector.gif" alt="Two-column picker" height="400" />
-  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/singleColumnSelectorSearchBar.gif" alt="Single-column picker with search" height="400" />
-</p>
 
 ## Features
 
@@ -29,15 +20,9 @@
 
 - React `>=16.8.0`
 - React Native `>=0.62.0`
-- iOS
-
-Android support is not currently provided by this package.
-
-## Package dependencies
-
-[![@react-native-picker/picker](https://img.shields.io/npm/v/@react-native-picker/picker?label=%40react-native-picker%2Fpicker)](https://www.npmjs.com/package/@react-native-picker/picker)
-
-`@react-native-picker/picker` is a runtime dependency of this package and is installed automatically with it.
+- `@react-native-picker/picker` `>=2.0.0`
+- `react-native-safe-area-context` `>=4.0.0`
+- iOS (Android support in development)
 
 ## Installation
 
@@ -54,133 +39,162 @@ yarn add react-native-multicolumn-modal-picker
 For Expo projects:
 
 ```bash
-npx expo install react-native-multicolumn-modal-picker
+npx expo install react-native-multicolumn-modal-picker @react-native-picker/picker react-native-safe-area-context
 ```
+
+The picker and safe-area packages are peer dependencies, so install them in the consuming app. `react-native-safe-area-context` is used to keep the modal clear of device safe areas, while `@react-native-picker/picker` provides the native picker columns.
+
+When the modal opens, the picker slides up while the customizable backdrop fades independently.
+
+## Example App
+
+Try the package in the included example app:
+
+[Open example app](https://github.com/Rio9735/react-native-multicolumn-modal-picker/tree/main/example-app)
+
+## Demo
+
+<!-- markdownlint-disable MD033 -->
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/singleColumnSelector.gif" alt="Single-column picker" height="400" />
+  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/twoColumnSelector.gif" alt="Two-column picker" height="400" />
+  <img src="https://raw.githubusercontent.com/Rio9735/react-native-multicolumn-modal-picker/main/assets/singleColumnSelectorSearchBar.gif" alt="Single-column picker with search" height="400" />
+</p>
 
 ## Usage
 
+### Plan and billing picker
+
+For a fully styled implementation, check out [`BasicPickerExample`](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/example-app/components/basic-picker-example.tsx) in the [example app](https://github.com/Rio9735/react-native-multicolumn-modal-picker/tree/main/example-app).
+
 ```tsx
 import { useState } from "react";
-import { Button, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import MultiColumnModalPicker from "react-native-multicolumn-modal-picker";
 
-const options = [
-  { label: "Option 1", value: 1 },
-  { label: "Option 2", value: 2 },
-  { label: "Option 3", value: 3 },
+const plans = [
+  { label: "Starter", value: "starter" },
+  { label: "Creator", value: "creator" },
+  { label: "Studio", value: "studio" },
+  { label: "Team", value: "team" },
+  { label: "Business", value: "business" },
 ];
 
-export default function App() {
+const billingCycles = [
+  { label: "Monthly", value: "monthly" },
+  { label: "Yearly", value: "yearly" },
+];
+
+const PlanPickerExample = () => {
   const [visible, setVisible] = useState(false);
-  const [value, setValue] = useState(2);
+  const [plan, setPlan] = useState("creator");
+  const [billingCycle, setBillingCycle] = useState("yearly");
 
   return (
     <View>
-      <Button title="Open picker" onPress={() => setVisible(true)} />
+      <Pressable onPress={() => setVisible(true)}>
+        <Text>Choose plan</Text>
+      </Pressable>
+      <Text>
+        {plan} / {billingCycle}
+      </Text>
+
       <MultiColumnModalPicker
         visible={visible}
-        columns={[options]}
-        selectedValues={[value]}
-        onValueChange={(nextValue, columnIndex) => {
-          if (columnIndex === 0 && typeof nextValue === "number") {
-            setValue(nextValue);
-          }
+        theme="night"
+        actionButtonsPosition="bottom"
+        acceptButtonText="Apply plan"
+        cancelButtonText="Keep current"
+        columns={[plans, billingCycles]}
+        selectedValues={[plan, billingCycle]}
+        itemStyle={{ color: "#F5F8FC", fontSize: 18 }}
+        horizontalPadding={0}
+        customColorScheme={{
+          night: {
+            modalBackground: "#101A2A",
+            overlay: "rgba(5, 12, 24, 0.72)",
+            buttonText: "#79E2C0",
+            pickerItemText: "#F5F8FC",
+            cancelText: "#FF9E9E",
+          },
+        }}
+        onValueChange={(value, columnIndex) => {
+          if (typeof value !== "string") return;
+          if (columnIndex === 0) setPlan(value);
+          if (columnIndex === 1) setBillingCycle(value);
         }}
         onClose={() => setVisible(false)}
       />
     </View>
   );
-}
+};
 ```
 
 `onClose` is called for both the accept and cancel flows. Tapping outside the picker follows the accept path, so it calls `onAccept` (when provided) and then `onClose`; it does not call `onCancel`.
 
 The cancel button and the modal request-close event restore the values from when the modal opened, call `onCancel` (when provided), and then call `onClose`.
 
-## Examples
+### Destination search picker
 
-### Two columns
+For a fully styled implementation, check out [`SingleColumnWithSearchExample`](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/example-app/components/single-column-with-search-example.tsx) in the [example app](https://github.com/Rio9735/react-native-multicolumn-modal-picker/tree/main/example-app).
 
-```tsx
-import { useState } from "react";
-import { Button, View } from "react-native";
-import MultiColumnModalPicker from "react-native-multicolumn-modal-picker";
-
-export default function TimePickerExample() {
-  const [visible, setVisible] = useState(false);
-  const [hour, setHour] = useState(12);
-  const [minute, setMinute] = useState(0);
-
-  const hours = Array.from({ length: 24 }, (_, hour) => ({
-    label: String(hour).padStart(2, "0"),
-    value: hour,
-  }));
-
-  const minutes = Array.from({ length: 60 }, (_, minute) => ({
-    label: String(minute).padStart(2, "0"),
-    value: minute,
-  }));
-
-  return (
-    <View>
-      <Button title="Select time" onPress={() => setVisible(true)} />
-      <MultiColumnModalPicker
-        visible={visible}
-        actionButtonsPosition="bottom"
-        columns={[hours, minutes]}
-        selectedValues={[hour, minute]}
-        onValueChange={(nextValue, columnIndex) => {
-          if (columnIndex === 0 && typeof nextValue === "number") {
-            setHour(nextValue);
-          }
-
-          if (columnIndex === 1 && typeof nextValue === "number") {
-            setMinute(nextValue);
-          }
-        }}
-        onClose={() => setVisible(false)}
-        onAccept={() => console.log(`Selected ${hour}:${minute}`)}
-      />
-    </View>
-  );
-}
-```
-
-### Single column with search
-
-Search is available only when a single column is active.
+Search is available when exactly one column is active. This example keeps the picker synchronized with the device appearance by using `theme="auto"`.
 
 ```tsx
 import { useState } from "react";
-import { Button, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import MultiColumnModalPicker from "react-native-multicolumn-modal-picker";
 
-const countries = [
-  { label: "Australia", value: "+61" },
-  { label: "France", value: "+33" },
-  { label: "Japan", value: "+81" },
+const destinations = [
+  { label: "Barcelona · BCN", value: "BCN" },
+  { label: "Copenhagen · CPH", value: "CPH" },
+  { label: "Lisbon · LIS", value: "LIS" },
+  { label: "London · LHR", value: "LHR" },
+  { label: "New York · JFK", value: "JFK" },
+  { label: "Paris · CDG", value: "CDG" },
+  { label: "Tokyo · HND", value: "HND" },
 ];
 
-export default function SearchExample() {
+const DestinationSearchExample = () => {
   const [visible, setVisible] = useState(false);
-  const [countryCode, setCountryCode] = useState("+33");
+  const [destinationCode, setDestinationCode] = useState("CDG");
 
   return (
     <View>
-      <Button title="Select country" onPress={() => setVisible(true)} />
+      <Pressable onPress={() => setVisible(true)}>
+        <Text>Find a destination</Text>
+      </Pressable>
+      <Text>Destination: {destinationCode}</Text>
+
       <MultiColumnModalPicker
         visible={visible}
         enableSearch
-        columns={[countries]}
-        selectedValues={[countryCode]}
-        onValueChange={(nextValue) => {
-          if (nextValue !== null) setCountryCode(String(nextValue));
+        theme="auto"
+        actionButtonsPosition="bottom"
+        acceptButtonText="Use destination"
+        cancelButtonText="Back to itinerary"
+        columns={[destinations]}
+        selectedValues={[destinationCode]}
+        rightInfo={destinationCode}
+        searchPlaceholder="Search city or airport code"
+        searchBarBorderRadius={18}
+        searchClearButtonBorderRadius={16}
+        actionButtonsBorderRadius={20}
+        searchBoxStyle={{
+          width: "92%",
+          minHeight: 52,
+          borderColor: "rgba(128, 128, 128, 0.28)",
+          borderWidth: 1,
+        }}
+        horizontalPadding={0}
+        onValueChange={(value) => {
+          if (typeof value === "string") setDestinationCode(value);
         }}
         onClose={() => setVisible(false)}
       />
     </View>
   );
-}
+};
 ```
 
 ## API
@@ -189,68 +203,79 @@ export default function SearchExample() {
 
 The package exposes the public value, item, column, locale, theme, palette, and callback types used by `MultiColumnModalPickerProps` for editor autocomplete and static typing.
 
-### Modern API surface
+### New API surface
 
 The defaults below reflect the actual TypeScript contract in `MultiColumnModalPickerProps`. Optional props resolve to `undefined` and the component applies runtime fallbacks from the selected theme/locale when needed.
 
-| Prop                    | Type                                                                             | Default                             | Description                                                                           |
-| ----------------------- | -------------------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------- |
-| `visible`               | `boolean`                                                                        | required                            | Controls modal visibility.                                                            |
-| `columns`               | `readonly [PickerColumn, PickerColumn?, PickerColumn?]`                          | `undefined`                         | Full column set passed as a tuple.                                                    |
-| `selectedValues`        | `readonly [PickerValue \| null, (PickerValue \| null)?, (PickerValue \| null)?]` | `undefined`                         | Selected values for all columns.                                                      |
-| `onValueChange`         | `(value: PickerValue \| null, columnIndex: number, index?: number) => void`      | `undefined`                         | Called when a picker value changes.                                                   |
-| `onClose`               | `() => void`                                                                     | required                            | Called when the modal closes.                                                         |
-| `onAccept`              | `() => void`                                                                     | `undefined`                         | Called when the user confirms the current selection.                                  |
-| `onCancel`              | `() => void`                                                                     | `undefined`                         | Called when the user cancels without accepting.                                       |
-| `actionButtonsPosition` | `ActionButtonsPosition`                                                          | `"none"`                            | Position of the action buttons row.                                                   |
-| `acceptButtonText`      | `string`                                                                         | `undefined`                         | Custom text for the accept button. If omitted, the localized default applies.         |
-| `cancelButtonText`      | `string`                                                                         | `undefined`                         | Custom text for the cancel button. If omitted, the localized default applies.         |
-| `searchPlaceholder`     | `string`                                                                         | `undefined`                         | Custom placeholder for the search field. If omitted, the localized default applies.   |
-| `enableSearch`          | `boolean`                                                                        | `false`                             | Enables search in single-column mode.                                                 |
-| `theme`                 | `PickerThemeName`                                                                | `undefined` (device theme fallback) | Theme key used to select the base palette. Omitted means use the active system theme. |
-| `customColorScheme`     | `Partial<Record<string, Partial<PickerPalette>>>`                                | `undefined`                         | Final color overrides applied on top of the selected base theme.                      |
-| `locale`                | `PickerLocale`                                                                   | device locale, then `"en"`          | Localizes the built-in default texts when explicit overrides are not provided.        |
-| `rightInfo`             | `string`                                                                         | `undefined`                         | Static text shown to the right side of the picker columns.                            |
-| `title`                 | `string`                                                                         | `undefined`                         | Optional title shown above the picker.                                                |
+| Prop                             | Type                                                                             | Default                             | Description                                                                                                   |
+| -------------------------------- | -------------------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `visible`                        | `boolean`                                                                        | `required`                          | Controls modal visibility.                                                                                    |
+| `columns`                        | `readonly [PickerColumn, PickerColumn?, PickerColumn?]`                          | `undefined`                         | Full column set passed as a tuple.                                                                            |
+| `selectedValues`                 | `readonly [PickerValue \| null, (PickerValue \| null)?, (PickerValue \| null)?]` | `undefined`                         | Selected values for all columns.                                                                              |
+| `onValueChange`                  | `(value: PickerValue \| null, columnIndex: number, index?: number) => void`      | `undefined`                         | Called when a picker value changes.                                                                           |
+| `actionButtonsPosition`          | `ActionButtonsPosition`                                                          | `"none"`                            | Position of the action buttons row.                                                                           |
+| `onAccept`                       | `() => void`                                                                     | `undefined`                         | Called when the user confirms the current selection.                                                          |
+| `onCancel`                       | `() => void`                                                                     | `undefined`                         | Called when the user cancels without accepting.                                                               |
+| `onClose`                        | `() => void`                                                                     | `required`                          | Called when the modal closes.                                                                                 |
+| `acceptButtonText`               | `string`                                                                         | `undefined`                         | Custom text for the accept button. If omitted, the localized default applies.                                 |
+| `cancelButtonText`               | `string`                                                                         | `undefined`                         | Custom text for the cancel button. If omitted, the localized default applies.                                 |
+| `title`                          | `string`                                                                         | `undefined`                         | Optional title shown above the picker.                                                                        |
+| `rightInfo`                      | `string`                                                                         | `undefined`                         | Static text shown to the right side of the picker columns.                                                    |
+| `enableSearch`                   | `boolean`                                                                        | `false`                             | Enables search in single-column mode.                                                                         |
+| `onSearchFocus`                  | `() => void`                                                                     | `undefined`                         | Called when the rendered search field receives focus. Only applies with search enabled and one active column. |
+| `onSearchBlur`                   | `() => void`                                                                     | `undefined`                         | Called when the rendered search field loses focus. Only applies with search enabled and one active column.    |
+| `searchPlaceholder`              | `string`                                                                         | `undefined`                         | Custom placeholder for the search field. If omitted, the localized default applies.                           |
+| `horizontalPadding`              | `number`                                                                         | `undefined`                         | Horizontal padding applied around the picker content.                                                         |
+| `modalBorderRadius`              | `number`                                                                         | `10`                                | Border radius applied to the modal container.                                                                 |
+| `selectionHighlightBorderRadius` | `number`                                                                         | `10`                                | Reserved for the selected-item highlight when that visual is enabled. Currently has no visible effect.        |
+| `searchBarBorderRadius`          | `number`                                                                         | `10`                                | Border radius applied to the search bar.                                                                      |
+| `searchClearButtonBorderRadius`  | `number`                                                                         | `10`                                | Border radius applied to the search clear button.                                                             |
+| `actionButtonsBorderRadius`      | `number`                                                                         | `10`                                | Border radius for action buttons rendered outside the modal. Integrated buttons keep the modal radius.        |
+| `theme`                          | `PickerThemeName`                                                                | `undefined` (device theme fallback) | Theme key used to select the base palette. Omitted means use the active system theme.                         |
+| `customColorScheme`              | `Partial<Record<string, Partial<PickerPalette>>>`                                | `undefined`                         | Final color overrides applied on top of the selected base theme.                                              |
+| `locale`                         | `PickerLocale`                                                                   | device locale, then `"en"`          | Localizes the built-in default texts when explicit overrides are not provided.                                |
 
 ### Styling props
 
-| Prop                    | Type                   | Description                                           |
-| ----------------------- | ---------------------- | ----------------------------------------------------- |
-| `acceptButtonTextStyle` | `StyleProp<TextStyle>` | Accept button label style.                            |
-| `cancelButtonTextStyle` | `StyleProp<TextStyle>` | Cancel button label style.                            |
-| `horizontalPadding`     | `number`               | Horizontal padding applied around the picker content. |
-| `itemStyle`             | `StyleProp<TextStyle>` | Style applied to picker item labels.                  |
-| `pickerItemTextStyle`   | `StyleProp<TextStyle>` | Compatibility alias for `itemStyle`.                  |
-| `rightInfoTextStyle`    | `StyleProp<TextStyle>` | Style for the right-side info text.                   |
-| `searchBoxStyle`        | `StyleProp<ViewStyle>` | Style applied to the search input container.          |
-| `searchTextStyle`       | `StyleProp<TextStyle>` | Style for the search input text.                      |
-| `titleStyle`            | `StyleProp<TextStyle>` | Style for the title text.                             |
+| Prop                    | Type                   | Description                                  |
+| ----------------------- | ---------------------- | -------------------------------------------- |
+| `titleStyle`            | `StyleProp<TextStyle>` | Style for the title text.                    |
+| `itemStyle`             | `StyleProp<TextStyle>` | Style applied to picker item labels.         |
+| `rightInfoTextStyle`    | `StyleProp<TextStyle>` | Style for the right-side info text.          |
+| `acceptButtonTextStyle` | `StyleProp<TextStyle>` | Accept button label style.                   |
+| `cancelButtonTextStyle` | `StyleProp<TextStyle>` | Cancel button label style.                   |
+| `searchBoxStyle`        | `StyleProp<ViewStyle>` | Style applied to the search input container. |
+| `searchTextStyle`       | `StyleProp<TextStyle>` | Style for the search input text.             |
+| `pickerItemTextStyle`   | `StyleProp<TextStyle>` | Compatibility alias for `itemStyle`.         |
 
 > All custom color styling should go through `customColorScheme`. Individual color props were removed from the recommended API because they duplicate the same responsibility and make the theme model harder to reason about.
+
+The selected-value highlight is currently disabled. `selectionHighlight` and `selectionHighlightBorderRadius` remain part of the compatibility surface, but they do not change the current appearance.
 
 ### Deprecated aliases
 
 The following props are still supported for compatibility, but they are deprecated as of version 1.1.0 and should be replaced in new code. They remain available only to avoid breaking existing integrations, and they are expected to be removed in a future major version.
 
-| Deprecated prop            | Deprecated since | Replace with            | Notes                                                  |
-| -------------------------- | ---------------- | ----------------------- | ------------------------------------------------------ |
-| `actionButtons`            | `1.1.0`          | `actionButtonsPosition` | Kept for backward compatibility.                       |
-| `bgColor`                  | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model. |
-| `cancelButtonBgColor`      | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model. |
-| `actionButtonsBorderColor` | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model. |
-| `hPadding`                 | `1.1.0`          | `horizontalPadding`     | Kept for backward compatibility.                       |
-| `onValueChange1`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                       |
-| `onValueChange2`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                       |
-| `onValueChange3`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                       |
-| `onValuesChange`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                       |
-| `searchBar`                | `1.1.0`          | `enableSearch`          | Kept for backward compatibility.                       |
-| `searchElementsColor`      | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model. |
-| `selectionHighlightColor`  | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model. |
+| Deprecated prop            | Deprecated since | Replace with            | Notes                                                             |
+| -------------------------- | ---------------- | ----------------------- | ----------------------------------------------------------------- |
+| `actionButtons`            | `1.1.0`          | `actionButtonsPosition` | Kept for backward compatibility.                                  |
+| `bgColor`                  | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
+| `cancelButtonBgColor`      | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
+| `actionButtonsBorderColor` | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
+| `hPadding`                 | `1.1.0`          | `horizontalPadding`     | Kept for backward compatibility.                                  |
+| `onValueChange1`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                                  |
+| `onValueChange2`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                                  |
+| `onValueChange3`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                                  |
+| `onValuesChange`           | `1.1.0`          | `onValueChange`         | Kept for backward compatibility.                                  |
+| `searchBar`                | `1.1.0`          | `enableSearch`          | Kept for backward compatibility.                                  |
+| `searchElementsColor`      | `1.1.0`          | `customColorScheme`     | Legacy color alias; prefer the palette override model.            |
+| `selectionHighlightColor`  | `1.1.0`          | `customColorScheme`     | Legacy alias; the selected-value highlight is currently disabled. |
 
 ### Search behavior
 
-Search is optional and only applies when a single column is used. Matching ignores case and accents. An exact value match is preferred; otherwise the first label-ranked match is selected. Clearing the field or finding no match restores the previous value.
+Search is optional and only applies when a single non-empty column is active. Matching ignores case and accents in both labels and values. An exact value match is preferred; otherwise the first label-ranked match is selected. Clearing the field or finding no match restores the value that was selected when that search query began. `onSearchFocus` and `onSearchBlur` run when the search field receives or loses focus, but only when the search bar is actually rendered. If either callback is defined without an active single-column search bar, it has no effect.
+
+All configurable border-radius props default to `10`. `actionButtonsBorderRadius` applies only to action buttons rendered outside the modal, such as the separate cancel action. Buttons integrated into the modal remain clipped and shaped by `modalBorderRadius`, so changing the radius does not break the attached layout.
 
 ### Localization
 
@@ -274,7 +299,7 @@ Supported locales in the current public API:
 - 日本語 (`ja`)
 - 한국어 (`ko`)
 - 中文 (`zh`)
-- العربية (`ar`)
+- Arabic (`ar`)
 - हिन्दी (`hi`)
 - Türkçe (`tr`)
 - Nederlands (`nl`)
@@ -288,11 +313,16 @@ Supported locales in the current public API:
 - Bahasa Indonesia (`id`)
 - ไทย (`th`)
 - Українська (`uk`)
-- עברית (`he`)
+- Hebrew (`he`)
 - Română (`ro`)
 - Magyar (`hu`)
 - Slovenčina (`sk`)
 - Tiếng Việt (`vi`)
+
+The device locale `nn` (Norwegian Nynorsk) is detected and normalized to the
+`nb` translation. It is not a separate manual `locale` value.
+
+The built-in locales are defaults, not a limitation. If your app already uses another language or an i18n library, pass its translated values directly through `acceptButtonText`, `cancelButtonText`, and `searchPlaceholder`.
 
 ```tsx
 <MultiColumnModalPicker locale="es" {...props} />
@@ -300,7 +330,7 @@ Supported locales in the current public API:
 
 ### Theme and custom color schemes
 
-`theme` selects the base palette. `customColorScheme` is the final override layer: you provide only the colors you want to replace, and any omitted values fall back to the selected base theme.
+`theme` selects the base palette. `customColorScheme` is the final override layer: you provide only the colors you want to replace, and any omitted values fall back to the selected base theme. The `PickerPalette.overlay` color controls the animated backdrop displayed behind the modal. The selected-value highlight is currently disabled, so `selectionHighlight` is intentionally omitted from new schemes.
 
 ```tsx
 <MultiColumnModalPicker
@@ -309,18 +339,18 @@ Supported locales in the current public API:
   customColorScheme={{
     light: {
       modalBackground: "#F5F5F5",
+      overlay: "rgba(0, 0, 0, 0.42)",
       border: "#D8D8D8",
-      selectionHighlight: "#4A90E2",
     },
     dark: {
       modalBackground: "#1E1E1E",
+      overlay: "rgba(0, 0, 0, 0.58)",
       border: "#3A3A3A",
-      selectionHighlight: "#7C9CFF",
     },
     midnight: {
       modalBackground: "#111827",
+      overlay: "rgba(0, 0, 0, 0.72)",
       border: "#374151",
-      selectionHighlight: "#60A5FA",
       buttonText: "#F9FAFB",
     },
   }}
@@ -330,7 +360,7 @@ Supported locales in the current public API:
 />
 ```
 
-Partial overrides are supported, and a custom scheme name is only active when `theme` is set to that same name. `customColorScheme` overrides the selected base theme, and any omitted colors fall back to that base theme.
+Partial overrides are supported, and a custom scheme name is only active when `theme` is set to that same name. You can use any theme name from your app and override only the colors you need; omitted colors fall back to the selected base theme.
 
 ### TypeScript support
 
@@ -340,9 +370,9 @@ The package exports `MultiColumnModalPickerProps`, `PickerLocale`, `PickerValue`
 
 - Public TypeScript typings and generated declarations are now exported for editor support and static checks.
 - The public API was cleaned up to use clearer prop names while preserving compatibility aliases.
-- Built-in localized default UI text is available through the `locale` prop for all 30 supported locales.
+- Built-in localized default UI text is available through the `locale` prop for 29 supported values, with device detection for `nn` normalized to `nb`.
 
-For the complete version history, see [CHANGELOG.md](./CHANGELOG.md).
+For the complete version history, see [CHANGELOG.md](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/CHANGELOG.md).
 
 ## Contributing
 
@@ -356,4 +386,4 @@ _**Río**_ · [markidelrio@gmail.com](mailto:markidelrio@gmail.com)
 
 ## License
 
-MIT. See [LICENSE](./LICENSE).
+MIT. See [LICENSE](https://github.com/Rio9735/react-native-multicolumn-modal-picker/blob/main/LICENSE).
